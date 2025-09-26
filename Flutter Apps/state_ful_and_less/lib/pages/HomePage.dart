@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:state_ful_andl_less/components/ButtonNavigationBar.dart';
+import 'package:state_ful_andl_less/pages/AddColorPage.dart';
 import 'package:state_ful_andl_less/pages/ButtonPage.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  final List<Widget> _children = const [
+    Buttonpage(),
+    Addcolor(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +27,17 @@ class HomePage extends StatelessWidget {
         ),
         backgroundColor: Colors.purple,
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const Buttonpage()));
-          },
-          child: const Text("Click"),
-        ),
-      ),
-      bottomNavigationBar: Buttonnavigationbar(
-        barItems: const [
+      body: _children[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: const [
           BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
           BottomNavigationBarItem(label: "Add", icon: Icon(Icons.add)),
-          BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person)),
         ],
       ),
     );

@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:state_ful_andl_less/pages/HomePage.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  
-  const MyApp();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Statefull X Stateless", style: TextStyle(color: Colors.white),),
-          backgroundColor: Colors.purple,
-        ),
-        body: Center(child: ElevatedButton(onPressed: (){}, child: Text("Click"))),
-        bottomNavigationBar: BottomNavigationBar(items: const [
-          BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
-          BottomNavigationBarItem(label: "Add",icon: Icon(Icons.add)),
-          BottomNavigationBarItem(label: "Home",icon: Icon(Icons.home)),
-        ],),
-      ),
+      home: HomePage(),
     );
   }
 }

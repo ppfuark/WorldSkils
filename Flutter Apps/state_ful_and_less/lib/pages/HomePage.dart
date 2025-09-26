@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:state_ful_andl_less/components/ButtonNavigationBar.dart';
+import 'package:state_ful_andl_less/pages/ButtonPage.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -16,7 +17,9 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const Buttonpage()));
+          },
           child: const Text("Click"),
         ),
       ),

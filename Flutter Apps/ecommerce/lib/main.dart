@@ -48,7 +48,6 @@ void main() {
   cart.addProduct(product1);
   cart.addProduct(product4);
 
-  // ✅ Pass cart into MyApp
   runApp(MyApp(cart: cart));
 }
 
@@ -62,7 +61,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Ecommerce",
       debugShowCheckedModeBanner: false,
-      home: PageNavigator(cart: cart), // ✅ Forward cart
+      home: PageNavigator(cart: cart),
     );
   }
 }

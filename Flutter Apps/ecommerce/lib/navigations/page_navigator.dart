@@ -20,7 +20,7 @@ class _PageNavigatorState extends State<PageNavigator> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          CartPage(cart: widget.cart), // ✅ pass cart to CartPage
+          CartPage(cart: widget.cart),
           CartPage(cart: widget.cart),
         ],
       ),

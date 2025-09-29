@@ -9,7 +9,7 @@ class Cart extends ChangeNotifier {
   void addProduct(Product product) {
     if (_products.contains(product)) {
       Product productToEdit =
-          _products.where((target) => target == product) as Product;
+          _products.where((target) => target == product).first;
       productToEdit.quantity += 1;
     } else {
       _products.add(product);

@@ -7,6 +7,7 @@ class Product {
   late Gender gender;
   late double price;
   late int quantity;
+  String image;
 
   Product({
     required this.brand,
@@ -14,6 +15,7 @@ class Product {
     required this.size,
     required this.quantity,
     required this.price,
+    this.image = "https://www.svgrepo.com/show/36558/sell-product.svg",
     this.gender = Gender.unisex
   });
 }

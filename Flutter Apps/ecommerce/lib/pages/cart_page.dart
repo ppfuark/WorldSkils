@@ -14,7 +14,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    final products = widget.cart.products;
+    final items = widget.cart.items;
 
     return Scaffold(
       appBar: AppBar(
@@ -24,19 +24,94 @@ class _CartPageState extends State<CartPage> {
         ),
         backgroundColor: Colors.deepPurpleAccent,
       ),
-      body: products.isEmpty
-          ? const Center(
-              child: Text(
-                "Your cart is empty",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              ),
-            )
-          : ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return ProductCard(product: product);
-              },
+      body: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.grey[100],
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Total:",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        "\$${widget.cart.totalPrice.toStringAsFixed(2)}",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            widget.cart.checkout();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Purchase completed successfully!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          child: const Text("Checkout"),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ),
+                ),
+
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return ProductCardCart(
+                        item: item,
+                        onIncrease: () {
+                          try {
+                            widget.cart.increaseQuantity(item);
+                            setState(() {});
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.toString()),
+                                backgroundColor: Colors.orange,
+                              ),
+                            );
+                          }
+                        },
+                        onDecrease: () {
+                          widget.cart.decreaseQuantity(item);
+                          setState(() {});
+                        },
+                        onRemove: () {
+                          widget.cart.removeItem(item);
+                          setState(() {});
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
     );
   }

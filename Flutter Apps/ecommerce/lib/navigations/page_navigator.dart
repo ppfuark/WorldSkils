@@ -1,5 +1,6 @@
 import 'package:ecommerce/models/cart.dart';
 import 'package:ecommerce/pages/cart_page.dart';
+import 'package:ecommerce/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class PageNavigator extends StatefulWidget {
@@ -20,15 +21,15 @@ class _PageNavigatorState extends State<PageNavigator> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          CartPage(cart: widget.cart),
+          HomePage(cart: widget.cart),
           CartPage(cart: widget.cart),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: "Cart",
+            icon: Icon(Icons.home),
+            label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),

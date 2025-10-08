@@ -24,7 +24,7 @@ class UserWidgets {
 
     await db.insert(_databaseService.userTableName, {
       _databaseService.userNameColumnName: user.password,
-      _databaseService.userNameColumnName: user.username
+      _databaseService.userNameColumnName: user.username,
     });
   }
 

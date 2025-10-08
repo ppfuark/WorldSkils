@@ -2,9 +2,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
-
   String _userTableName = "users";
-  String _userNameColumnName  = "username";
+  String _userNameColumnName = "username";
   String _userPasswordColumnName = "password";
 
   get userTableName => _userTableName;
@@ -13,11 +12,11 @@ class DatabaseService {
 
   get userNameColumnName => _userNameColumnName;
 
-  set userNameColumnName( value) => _userNameColumnName = value;
+  set userNameColumnName(value) => _userNameColumnName = value;
 
   get userPasswordColumnName => _userPasswordColumnName;
 
-  set userPasswordColumnName( value) => _userPasswordColumnName = value;
+  set userPasswordColumnName(value) => _userPasswordColumnName = value;
 
   static Database? _db;
 
@@ -30,22 +29,21 @@ class DatabaseService {
     final database = await openDatabase(
       databasePath,
       version: 1,
-      onCreate: (db, version) => {
-        db.execute('''
+      onCreate: (db, version) async {
+        await db.execute('''
           CREATE TABLE $_userTableName (
             $_userNameColumnName TEXT PRIMARY KEY UNIQUE NOT NULL,
-            $_userPasswordColumnName TEXT NOT NULL,
+            $_userPasswordColumnName TEXT NOT NULL
           )
-        ''')
+        ''');
       },
     );
     return database;
   }
 
-  Future<Database> get database async{
+  Future<Database> get database async {
     if (_db != null) return _db!;
     _db = await getDatabase();
     return _db!;
   }
-
 }

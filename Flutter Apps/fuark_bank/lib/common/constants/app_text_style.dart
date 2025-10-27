@@ -6,21 +6,21 @@ class AppTextStyle {
   static TextStyle splashScreenText = TextStyle(
     fontSize: 50,
     fontFamily: "Poppins",
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
   );
   static TextStyle bigText = TextStyle(
-    fontSize: 36,
+    fontSize: 40,
     fontFamily: "Poppins",
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w800,
   );
   static TextStyle h1 = TextStyle(
     fontSize: 28,
     fontFamily: "Poppins",
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w700,
   );
   static TextStyle headline = TextStyle(
     fontSize: 18,
     fontFamily: "Poppins",
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w600,
   );
 }

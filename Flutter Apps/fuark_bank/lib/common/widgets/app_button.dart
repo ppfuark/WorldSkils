@@ -30,7 +30,6 @@ class AppButton extends StatelessWidget {
           label,
           style: AppTextStyle.h1.copyWith(
             color: AppColors.white,
-            fontWeight: FontWeight.w500,
           ),
         ),
       ),

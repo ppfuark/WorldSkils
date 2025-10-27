@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuark_bank/features/splash/splash_page.dart';
+import 'package:fuark_bank/features/onboarding/onboarding_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: SplashPage()),
+      home: Scaffold(body: OnboardingPage()),
     );
   }
 }

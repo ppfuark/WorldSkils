@@ -14,12 +14,14 @@ class SplashPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppColors.darkGrey, AppColors.black],
+            colors: AppColors.grayBlackGradiant,
           ),
         ),
         child: Text(
           "fuark",
-          style: AppTextStyle.bigText..copyWith(color: AppColors.primaryColor),
+          style: AppTextStyle.splashScreenText.copyWith(
+            color: AppColors.primaryColor,
+          ),
         ),
       ),
     );

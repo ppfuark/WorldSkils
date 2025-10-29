@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fuark_bank/features/onboarding/onboarding_page.dart';
+import 'package:fuark_bank/features/sign_up/sign_up_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: OnboardingPage()),
+      home: Scaffold(body: SignUpPage()),
     );
   }
 }

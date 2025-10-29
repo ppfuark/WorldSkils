@@ -23,8 +23,8 @@ class OnboardingPage extends StatelessWidget {
             padding: EdgeInsetsGeometry.only(
               top: 0,
               bottom: 60,
-              left: 30,
-              right: 30,
+              left: 40,
+              right: 40,
             ),
             child: Column(
               children: [
@@ -73,7 +73,7 @@ class OnboardingPage extends StatelessWidget {
                               Text(
                                 "Already have account? ",
                                 style: AppTextStyle.headline.copyWith(
-                                  color: AppColors.white,
+                                  color: AppColors.tertiary,
                                 ),
                               ),
                               GestureDetector(

@@ -28,9 +28,7 @@ class AppButton extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: AppTextStyle.h1.copyWith(
-            color: AppColors.white,
-          ),
+          style: AppTextStyle.h1.copyWith(color: AppColors.white),
         ),
       ),
     );

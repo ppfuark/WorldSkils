@@ -6,7 +6,8 @@ class AppColors {
   static const Color primaryColor = Color(0xFFE57627);
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
-  static const Color darkGrey = Color(0xFF424242);
+  static const Color secoundary = Color(0xFF424242);
+  static const Color tertiary = Color(0xFFBCBCBC);
 
   static final List<Color> grayBlackGradiant = [
     Color(0xFF424242),

@@ -18,7 +18,7 @@ class AppButton extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(100),
       ),
-      width: double.infinity,
+      width: 400,
       height: 64,
       child: ElevatedButton(
         onPressed: onPressed,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
 import 'package:fuark_bank/common/widgets/app_button.dart';
+import 'package:fuark_bank/common/widgets/app_input.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -54,10 +55,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        TextFormField(),
-                        TextFormField(),
-                        TextFormField(),
-                        TextFormField(),
+                        AppInput(label: "Your name", placeholder: "Your name...")
                       ],
                     ),
                   ],

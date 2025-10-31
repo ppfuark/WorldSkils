@@ -3,6 +3,7 @@ import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
 import 'package:fuark_bank/common/widgets/app_button.dart';
 import 'package:fuark_bank/common/widgets/app_input.dart';
+import 'package:fuark_bank/common/widgets/app_password_input.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -53,9 +54,24 @@ class SignUpPage extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 40),
                     Column(
+                      spacing: 30,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        AppInput(label: "Your name", placeholder: "Your name...")
+                        AppInput(label: "Your name", placeholder: "John Doe"),
+                        AppInput(
+                          label: "Your email",
+                          placeholder: "youremail@example.com",
+                        ),
+                        AppPasswordInput(
+                          placeholder: "Password",
+                          label: "Choose your password",
+                        ),
+                        AppPasswordInput(
+                          placeholder: "Password",
+                          label: "Confirm your password",
+                        ),
                       ],
                     ),
                   ],

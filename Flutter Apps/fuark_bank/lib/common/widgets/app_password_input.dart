@@ -14,6 +14,7 @@ class AppPasswordInput extends StatefulWidget {
   final int? maxLength;
   final TextInputAction? textInputAction;
   final FormFieldValidator<String>? validator;
+  final String? helperText;
 
   const AppPasswordInput({
     super.key,
@@ -25,6 +26,7 @@ class AppPasswordInput extends StatefulWidget {
     this.maxLength,
     this.textInputAction,
     this.validator,
+    this.helperText,
   });
 
   @override
@@ -37,6 +39,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
   @override
   Widget build(BuildContext context) {
     return AppInput(
+      helperText: widget.helperText,
       validator: widget.validator,
       obscureText: isHidden,
       textEditingController: widget.textEditingController,

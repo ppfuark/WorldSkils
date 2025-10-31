@@ -89,6 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           AppPasswordInput(
                             placeholder: "Password",
                             label: "Choose your password",
+                            helperText: "Your password must to be at least 6 characters, one uppercase letter and a number",
                           ),
                           AppPasswordInput(
                             placeholder: "Password",

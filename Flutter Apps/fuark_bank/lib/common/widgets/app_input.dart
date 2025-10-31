@@ -15,6 +15,7 @@ class AppInput extends StatefulWidget {
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
   final FormFieldValidator<String>? validator;
+  final String? helperText;
 
   const AppInput({
     super.key,
@@ -28,7 +29,8 @@ class AppInput extends StatefulWidget {
     this.textEditingController,
     this.textInputAction,
     this.inputFormatters,
-    this.validator
+    this.validator,
+    this.helperText,
   });
 
   @override
@@ -40,9 +42,28 @@ class _AppInputState extends State<AppInput> {
     borderSide: BorderSide(color: AppColors.primaryColor),
   );
 
+  String? _helperText;
+
+  @override
+  void initState() {
+    super.initState();
+    _helperText = widget.helperText;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: (value) {
+        if (value.length == 1) {
+          setState(() {
+            _helperText = null;
+          });
+        } else if (value.isEmpty) {
+          setState(() {
+            _helperText = widget.helperText;
+          });
+        }
+      },
       validator: widget.validator,
       inputFormatters: widget.inputFormatters,
       style: AppTextStyle.headline.copyWith(color: AppColors.white),
@@ -53,6 +74,8 @@ class _AppInputState extends State<AppInput> {
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
       decoration: InputDecoration(
+        helperText: _helperText,
+        helperMaxLines: 3,
         suffixIcon: widget.suffixIcon,
         // prefixIcon: Icon(Icons.add),
         hintText: widget.placeholder,

@@ -1,13 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
+import 'package:fuark_bank/common/utils/uppercase_text_formater.dart';
 import 'package:fuark_bank/common/widgets/app_button.dart';
 import 'package:fuark_bank/common/widgets/app_input.dart';
 import 'package:fuark_bank/common/widgets/app_password_input.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,24 +65,37 @@ class SignUpPage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 40),
-                    Column(
-                      spacing: 30,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AppInput(label: "Your name", placeholder: "John Doe"),
-                        AppInput(
-                          label: "Your email",
-                          placeholder: "youremail@example.com",
-                        ),
-                        AppPasswordInput(
-                          placeholder: "Password",
-                          label: "Choose your password",
-                        ),
-                        AppPasswordInput(
-                          placeholder: "Password",
-                          label: "Confirm your password",
-                        ),
-                      ],
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        spacing: 30,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppInput(
+                            label: "Your name",
+                            placeholder: "John Doe",
+                            inputFormatters: [UppercaseTextFormater()],
+                            validator: (value) {
+                              if (value != null && value.isEmpty) {
+                                return "This field can not be empty!";
+                              }
+                              return null;
+                            },
+                          ),
+                          AppInput(
+                            label: "Your email",
+                            placeholder: "youremail@example.com",
+                          ),
+                          AppPasswordInput(
+                            placeholder: "Password",
+                            label: "Choose your password",
+                          ),
+                          AppPasswordInput(
+                            placeholder: "Password",
+                            label: "Confirm your password",
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -83,7 +106,13 @@ class SignUpPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppButton(onPressed: () {}, label: "Sign Up"),
+                      AppButton(
+                        onPressed: () {
+                          final valid = _formKey.currentState?.validate();
+                          log(valid.toString());
+                        },
+                        label: "Sign Up",
+                      ),
                       SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

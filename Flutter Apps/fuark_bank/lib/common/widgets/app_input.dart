@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
 
@@ -12,6 +13,8 @@ class AppInput extends StatefulWidget {
   final int? maxLength;
   final TextInputAction? textInputAction;
   final Widget? suffixIcon;
+  final List<TextInputFormatter>? inputFormatters;
+  final FormFieldValidator<String>? validator;
 
   const AppInput({
     super.key,
@@ -24,6 +27,8 @@ class AppInput extends StatefulWidget {
     this.textCapitalization,
     this.textEditingController,
     this.textInputAction,
+    this.inputFormatters,
+    this.validator
   });
 
   @override
@@ -38,6 +43,8 @@ class _AppInputState extends State<AppInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: widget.validator,
+      inputFormatters: widget.inputFormatters,
       style: AppTextStyle.headline.copyWith(color: AppColors.white),
       obscureText: widget.obscureText ?? false,
       controller: widget.textEditingController,

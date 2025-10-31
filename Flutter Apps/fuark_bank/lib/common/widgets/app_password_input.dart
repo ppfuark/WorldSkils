@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+
 import 'package:fuark_bank/common/widgets/app_input.dart';
 
 class AppPasswordInput extends StatefulWidget {
@@ -11,16 +13,18 @@ class AppPasswordInput extends StatefulWidget {
   final TextInputType? keyboardType;
   final int? maxLength;
   final TextInputAction? textInputAction;
+  final FormFieldValidator<String>? validator;
 
   const AppPasswordInput({
     super.key,
-    required this.placeholder,
     required this.label,
-    this.keyboardType,
-    this.maxLength,
+    required this.placeholder,
     this.textCapitalization,
     this.textEditingController,
+    this.keyboardType,
+    this.maxLength,
     this.textInputAction,
+    this.validator,
   });
 
   @override
@@ -33,6 +37,7 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
   @override
   Widget build(BuildContext context) {
     return AppInput(
+      validator: widget.validator,
       obscureText: isHidden,
       textEditingController: widget.textEditingController,
       label: widget.label,

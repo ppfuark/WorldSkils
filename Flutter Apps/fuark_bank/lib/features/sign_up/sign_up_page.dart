@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
@@ -8,6 +7,7 @@ import 'package:fuark_bank/common/widgets/app_button.dart';
 import 'package:fuark_bank/common/widgets/app_input.dart';
 import 'package:fuark_bank/common/widgets/app_password_input.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
+import 'package:fuark_bank/common/utils/validator.dart'; // ensure correct path
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -18,21 +18,17 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          // gradient: LinearGradient(
-          //   colors: AppColors.grayBlackGradiant,
-          //   begin: AlignmentGeometry.topCenter,
-          // ),
-          color: Colors.black,
-        ),
+        decoration: const BoxDecoration(color: Colors.black),
         child: Padding(
-          padding: EdgeInsetsGeometry.only(
+          padding: const EdgeInsets.only(
             left: 20,
             right: 20,
             top: 40,
@@ -64,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     Form(
                       key: _formKey,
                       child: Column(
@@ -75,25 +71,30 @@ class _SignUpPageState extends State<SignUpPage> {
                             label: "Your name",
                             placeholder: "John Doe",
                             inputFormatters: [UppercaseTextFormater()],
-                            validator: (value) {
-                              if (value != null && value.isEmpty) {
-                                return "This field can not be empty!";
-                              }
-                              return null;
-                            },
+                            validator: Validator.validateName,
                           ),
                           AppInput(
                             label: "Your email",
                             placeholder: "youremail@example.com",
+                            validator: Validator.validateEmail,
                           ),
                           AppPasswordInput(
+                            textEditingController: _passwordController,
                             placeholder: "Password",
                             label: "Choose your password",
-                            helperText: "Your password must to be at least 6 characters, one uppercase letter and a number",
+                            helperText:
+                                "Your password must be at least 8 characters, one uppercase letter, one number and one special character",
+                            validator: Validator.validatePassword,
                           ),
                           AppPasswordInput(
+                            textEditingController: _confirmPasswordController,
                             placeholder: "Password",
                             label: "Confirm your password",
+                            validator: (value) =>
+                                Validator.validateConfirmPassword(
+                                  _passwordController.text,
+                                  value,
+                                ),
                           ),
                         ],
                       ),
@@ -114,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                         label: "Sign Up",
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -124,15 +125,14 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: AppColors.tertiary,
                             ),
                           ),
-
                           GestureDetector(
-                            onTap: () => {
+                            onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SplashPage(),
+                                  builder: (context) => const SplashPage(),
                                 ),
-                              ),
+                              );
                             },
                             child: Text(
                               "Sing In",

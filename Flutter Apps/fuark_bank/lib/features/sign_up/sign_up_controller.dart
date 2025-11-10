@@ -13,9 +13,18 @@ class SignUpController extends ChangeNotifier {
 
   Future<bool> doSignUp() async {
     changeState(SignUpLoadingState());
-    await Future.delayed(const Duration(seconds: 2));
-    log("LOGINNNNNNNNNNNNNNN");
-    changeState(SignUpSuccessState());
-    return true;
+
+    try{
+      await Future.delayed(const Duration(seconds: 2));
+
+      // throw Exception("Unexpected Error in SignUp. Try again.");
+      log("LOGINNNNNNNNNNNNNNN");
+      changeState(SignUpSuccessState());
+      return true;
+    }catch(e){
+      changeState(SignUpErrorState());
+      return false;
+    }
+
   }
 }

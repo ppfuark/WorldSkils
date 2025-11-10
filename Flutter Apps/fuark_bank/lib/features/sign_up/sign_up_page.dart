@@ -49,6 +49,40 @@ class _SignUpPageState extends State<SignUpPage> {
           (route) => false,
         );
       }
+
+      if (_controller.state is SignUpErrorState) {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              decoration: BoxDecoration(
+                color: AppColors.black,
+                border: Border.all(),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Oops. Something went wrong!',
+                    style: AppTextStyle.headline.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsGeometry.all(20),
+                    child: AppButton(
+                      label: "Try Again!",
+                      isPrimary: false,
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      }
     });
   }
 
@@ -141,6 +175,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppButton(
+                        isPrimary: true,
                         onPressed: () async {
                           // Fix validation logic
                           if (_formKey.currentState!.validate()) {

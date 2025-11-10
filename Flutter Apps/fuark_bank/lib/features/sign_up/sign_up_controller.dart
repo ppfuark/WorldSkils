@@ -12,9 +12,9 @@ class SignUpController extends ChangeNotifier {
   }
 
   Future<bool> doSignUp() async {
+    changeState(SignUpLoadingState());
     await Future.delayed(const Duration(seconds: 2));
     log("LOGINNNNNNNNNNNNNNN");
-
     changeState(SignUpSucessState());
     return true;
   }

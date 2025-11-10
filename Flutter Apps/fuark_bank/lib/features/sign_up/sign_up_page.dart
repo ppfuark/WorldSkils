@@ -1,5 +1,4 @@
-import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
@@ -8,8 +7,9 @@ import 'package:fuark_bank/common/widgets/app_button.dart';
 import 'package:fuark_bank/common/widgets/app_input.dart';
 import 'package:fuark_bank/common/widgets/app_password_input.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_controller.dart';
+import 'package:fuark_bank/features/sign_up/sign_up_state.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
-import 'package:fuark_bank/common/utils/validator.dart'; // ensure correct path
+import 'package:fuark_bank/common/utils/validator.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -29,6 +29,26 @@ class _SignUpPageState extends State<SignUpPage> {
     super.initState();
     _controller.addListener(() {
       log(_controller.state.toString());
+
+      if (_controller.state is SignUpLoadingState) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) =>
+              const Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      if (_controller.state is SignUpSuccessState) {
+        // Navigate only after success
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) =>
+                const Scaffold(body: Center(child: Text("New Page"))),
+          ),
+          (route) => false,
+        );
+      }
     });
   }
 
@@ -75,8 +95,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     Form(
                       key: _formKey,
                       child: Column(
-                        spacing: 30,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AppInput(
                             label: "Your name",
@@ -84,11 +102,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             inputFormatters: [UppercaseTextFormater()],
                             validator: Validator.validateName,
                           ),
+                          const SizedBox(height: 30),
                           AppInput(
                             label: "Your email",
                             placeholder: "youremail@example.com",
                             validator: Validator.validateEmail,
                           ),
+                          const SizedBox(height: 30),
                           AppPasswordInput(
                             textEditingController: _passwordController,
                             placeholder: "Password",
@@ -97,6 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 "Your password must be at least 8 characters, one uppercase letter, one number and one special character",
                             validator: Validator.validatePassword,
                           ),
+                          const SizedBox(height: 30),
                           AppPasswordInput(
                             textEditingController: _confirmPasswordController,
                             placeholder: "Password",
@@ -120,12 +141,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AppButton(
-                        onPressed: () {
-                          final valid =
-                              _formKey.currentState?.validate() != null;
-                          _formKey.currentState!.validate();
-                          if (valid) {
-                            _controller.doSignUp();
+                        onPressed: () async {
+                          // Fix validation logic
+                          if (_formKey.currentState!.validate()) {
+                            await _controller.doSignUp();
                           }
                         },
                         label: "Sign Up",

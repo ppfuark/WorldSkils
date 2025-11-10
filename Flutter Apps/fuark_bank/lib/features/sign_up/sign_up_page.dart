@@ -6,6 +6,7 @@ import 'package:fuark_bank/common/utils/uppercase_text_formater.dart';
 import 'package:fuark_bank/common/widgets/app_button.dart';
 import 'package:fuark_bank/common/widgets/app_input.dart';
 import 'package:fuark_bank/common/widgets/app_password_input.dart';
+import 'package:fuark_bank/common/widgets/app_show_modal_bottom_sheet.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_controller.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_state.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
@@ -35,7 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
           context: context,
           barrierDismissible: false,
           builder: (context) =>
-              const Center(child: CircularProgressIndicator()),
+              const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,)),
         );
       }
 
@@ -51,37 +52,8 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       if (_controller.state is SignUpErrorState) {
-        showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              height: 200,
-              decoration: BoxDecoration(
-                color: AppColors.black,
-                border: Border.all(),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Oops. Something went wrong!',
-                    style: AppTextStyle.headline.copyWith(
-                      color: AppColors.white,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsGeometry.all(20),
-                    child: AppButton(
-                      label: "Try Again!",
-                      isPrimary: false,
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+        Navigator.pop(context);
+        customShowModalBottomSheet(context);
       }
     });
   }

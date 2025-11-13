@@ -11,7 +11,6 @@ import 'package:fuark_bank/common/widgets/app_password_input.dart';
 import 'package:fuark_bank/common/widgets/app_show_modal_bottom_sheet.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_controller.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_state.dart';
-import 'package:fuark_bank/features/splash/splash_page.dart';
 import 'package:fuark_bank/common/utils/validator.dart';
 import 'package:fuark_bank/services/auth/mock_auth_service.dart';
 

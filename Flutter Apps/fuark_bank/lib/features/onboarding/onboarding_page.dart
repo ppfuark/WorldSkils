@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
 import 'package:fuark_bank/common/widgets/app_button.dart';
+import 'package:fuark_bank/features/sign_up/sign_up_page.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -60,7 +61,7 @@ class OnboardingPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SplashPage(),
+                                  builder: (context) => SignUpPage(),
                                 ),
                               );
                             },

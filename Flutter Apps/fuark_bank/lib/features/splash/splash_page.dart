@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
+import 'package:fuark_bank/common/constants/app_routes.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
-import 'package:fuark_bank/features/onboarding/onboarding_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -25,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void navigateToOnboarding(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>OnboardingPage()));
+    Navigator.pushReplacementNamed(context, AppRoutes.initial);
   }
 
   @override

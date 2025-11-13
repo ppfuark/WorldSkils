@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
+import 'package:fuark_bank/common/constants/app_routes.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
 import 'package:fuark_bank/common/models/user_model.dart';
 import 'package:fuark_bank/common/utils/uppercase_text_formater.dart';
@@ -193,11 +194,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
+                              Navigator.pushNamed(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SplashPage(),
-                                ),
+                                AppRoutes.signIn,
                               );
                             },
                             child: Text(

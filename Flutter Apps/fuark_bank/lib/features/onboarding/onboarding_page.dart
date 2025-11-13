@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
+import 'package:fuark_bank/common/constants/app_routes.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
 import 'package:fuark_bank/common/widgets/app_button.dart';
-import 'package:fuark_bank/features/sign_up/sign_up_page.dart';
-import 'package:fuark_bank/features/splash/splash_page.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -58,11 +57,9 @@ class OnboardingPage extends StatelessWidget {
                         children: [
                           AppButton(
                             onPressed: () {
-                              Navigator.push(
+                              Navigator.pushNamed(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignUpPage(),
-                                ),
+                                AppRoutes.signUp,
                               );
                             },
                             label: "Get Stated",
@@ -79,11 +76,9 @@ class OnboardingPage extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () => {
-                                  Navigator.push(
+                                  Navigator.pushNamed(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SplashPage(),
-                                    ),
+                                    AppRoutes.signIn,
                                   ),
                                 },
                                 child: Text(

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
+import 'package:fuark_bank/common/models/user_model.dart';
 import 'package:fuark_bank/common/utils/uppercase_text_formater.dart';
 import 'package:fuark_bank/common/widgets/app_button.dart';
 import 'package:fuark_bank/common/widgets/app_input.dart';
@@ -11,6 +12,7 @@ import 'package:fuark_bank/features/sign_up/sign_up_controller.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_state.dart';
 import 'package:fuark_bank/features/splash/splash_page.dart';
 import 'package:fuark_bank/common/utils/validator.dart';
+import 'package:fuark_bank/services/auth/mock_auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -22,8 +24,21 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _controller = SignUpController();
+  final _controller = SignUpController(MockAuthService());
+  
+
+  @override
+  void dispose() {
+    _confirmPasswordController.dispose();
+    _passwordController.dispose();
+    _emailController.dispose();
+    _nameController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -35,8 +50,9 @@ class _SignUpPageState extends State<SignUpPage> {
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) =>
-              const Center(child: CircularProgressIndicator(color: AppColors.primaryColor,)),
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(color: AppColors.primaryColor),
+          ),
         );
       }
 
@@ -52,8 +68,9 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       if (_controller.state is SignUpErrorState) {
+        final errorMessage = (_controller.state as SignUpErrorState).errorMessage;
         Navigator.pop(context);
-        customShowModalBottomSheet(context);
+        customShowModalBottomSheet(context, errorMessage, "Try again!");
       }
     });
   }
@@ -103,6 +120,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Column(
                         children: [
                           AppInput(
+                            textEditingController: _nameController,
                             label: "Your name",
                             placeholder: "John Doe",
                             inputFormatters: [UppercaseTextFormater()],
@@ -110,6 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           const SizedBox(height: 30),
                           AppInput(
+                            textEditingController: _emailController,
                             label: "Your email",
                             placeholder: "youremail@example.com",
                             validator: Validator.validateEmail,
@@ -151,7 +170,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: () async {
                           // Fix validation logic
                           if (_formKey.currentState!.validate()) {
-                            await _controller.doSignUp();
+                            await _controller.doSignUp(
+                              userData: UserModel(
+                                name: _nameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              ),
+                            );
                           }
                         },
                         label: "Sign Up",

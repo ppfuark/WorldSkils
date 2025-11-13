@@ -1,9 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:fuark_bank/common/models/user_model.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_state.dart';
+import 'package:fuark_bank/services/auth/auth_service.dart';
 
 class SignUpController extends ChangeNotifier {
+  
+  final AuthService _authService;
+
+  SignUpController(this._authService);
+
   SignUpState state = SignUpInitialState();
 
   void changeState(SignUpState newState) {
@@ -11,20 +16,14 @@ class SignUpController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> doSignUp() async {
+  Future<void> doSignUp({required UserModel userData}) async {
     changeState(SignUpLoadingState());
 
-    try{
-      await Future.delayed(const Duration(seconds: 2));
-
-      // throw Exception("Unexpected Error in SignUp. Try again.");
-      log("LOGINNNNNNNNNNNNNNN");
+    try {
+      await _authService.signUp(email: userData.email!, password: userData.password!, name: userData.name);
       changeState(SignUpSuccessState());
-      return true;
-    }catch(e){
-      changeState(SignUpErrorState());
-      return false;
+    } catch (e) {
+      changeState(SignUpErrorState(e.toString()));
     }
-
   }
 }

@@ -12,6 +12,7 @@ import 'package:fuark_bank/common/widgets/app_show_modal_bottom_sheet.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_controller.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_state.dart';
 import 'package:fuark_bank/common/utils/validator.dart';
+import 'package:fuark_bank/locator.dart';
 import 'package:fuark_bank/services/auth/mock_auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _controller = SignUpController(MockAuthService());
+  final _controller = locator.get<SignUpController>();
   
 
   @override

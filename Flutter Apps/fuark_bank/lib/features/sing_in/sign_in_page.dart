@@ -11,7 +11,7 @@ import 'package:fuark_bank/common/widgets/app_show_modal_bottom_sheet.dart';
 import 'package:fuark_bank/common/utils/validator.dart';
 import 'package:fuark_bank/features/sing_in/sign_in_controller.dart';
 import 'package:fuark_bank/features/sing_in/sign_in_state.dart';
-import 'package:fuark_bank/services/auth/mock_auth_service.dart';
+import 'package:fuark_bank/locator.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -26,7 +26,7 @@ class _SignInPageState extends State<SignInPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _controller = SignInController(MockAuthService());
+  final _controller = locator.get<SignInController>();
 
   @override
   void dispose() {

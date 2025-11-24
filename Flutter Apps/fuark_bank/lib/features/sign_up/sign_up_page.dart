@@ -13,7 +13,6 @@ import 'package:fuark_bank/features/sign_up/sign_up_controller.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_state.dart';
 import 'package:fuark_bank/common/utils/validator.dart';
 import 'package:fuark_bank/locator.dart';
-import 'package:fuark_bank/services/auth/mock_auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

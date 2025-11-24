@@ -13,7 +13,7 @@ class MockAuthService implements AuthService {
         throw Exception();
       }
       // throw Exception();
-      return UserModel(id: 7, email: email);
+      return UserModel(id: "7", email: email);
     } catch (e) {
       if (password.startsWith("123")) {
         throw "Weak password. Try again!";
@@ -34,7 +34,7 @@ class MockAuthService implements AuthService {
         throw Exception();
       }
       // throw Exception();
-      return UserModel(id: 7, email: email, name: name);
+      return UserModel(id: "7", email: email, name: name);
     } catch (e) {
       if (password.startsWith("123")) {
         throw "Weak password. Try again!";

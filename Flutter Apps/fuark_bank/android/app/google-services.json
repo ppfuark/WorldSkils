@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "405642219782",
+    "project_id": "fuark-bank",
+    "storage_bucket": "fuark-bank.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405642219782:android:8e542cdc09a545d23b0e87",
+        "android_client_info": {
+          "package_name": "com.ppfuark.fuark_bank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh4qUzS5HMaAUFhJJXkSOy4mpdhht6DhQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

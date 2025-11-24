@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"fuark-bank","appId":"1:405642219782:android:8e542cdc09a545d23b0e87","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"fuark-bank","configurations":{"android":"1:405642219782:android:8e542cdc09a545d23b0e87","web":"1:405642219782:web:e51af876d7551cd33b0e87"}}}}}}

@@ -53,7 +53,6 @@ class _AppPasswordInputState extends State<AppPasswordInput> {
         borderRadius: BorderRadius.circular(23.0),
         child: isHidden ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
         onTap: () {
-          log("AFFF");
           setState(() {
             isHidden = !isHidden;
           });

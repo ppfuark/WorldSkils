@@ -28,7 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _controller = locator.get<SignUpController>();
-  
 
   @override
   void dispose() {
@@ -68,7 +67,8 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       if (_controller.state is SignUpErrorState) {
-        final errorMessage = (_controller.state as SignUpErrorState).errorMessage;
+        final errorMessage =
+            (_controller.state as SignUpErrorState).errorMessage;
         Navigator.pop(context);
         customShowModalBottomSheet(context, errorMessage, "Try again!");
       }
@@ -88,11 +88,10 @@ class _SignUpPageState extends State<SignUpPage> {
             top: 40,
             bottom: 40,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: [
-              Expanded(
-                flex: 5,
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 220,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -193,10 +192,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.signIn,
-                              );
+                              Navigator.pushNamed(context, AppRoutes.signIn);
                             },
                             child: Text(
                               "Sing In",

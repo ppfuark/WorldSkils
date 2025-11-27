@@ -78,109 +78,122 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(color: Colors.black),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 40,
-            bottom: 40,
-          ),
-          child: ListView(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height - 120,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(color: AppColors.black),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 40,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: 20,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Welcome back!",
-                              style: AppTextStyle.bigText.copyWith(
-                                color: AppColors.white,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Welcome back!",
+                                  style: AppTextStyle.bigText.copyWith(
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 40),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  AppInput(
+                                    textEditingController: _emailController,
+                                    label: "Your email",
+                                    placeholder: "youremail@example.com",
+                                    validator: Validator.validateEmail,
+                                  ),
+                                  const SizedBox(height: 30),
+                                  AppPasswordInput(
+                                    textEditingController: _passwordController,
+                                    placeholder: "Password",
+                                    label: "Enter your password",
+                                    validator: Validator.validatePassword,
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 40),
-                        Form(
-                          key: _formKey,
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Align(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              AppInput(
-                                textEditingController: _emailController,
-                                label: "Your email",
-                                placeholder: "youremail@example.com",
-                                validator: Validator.validateEmail,
+                              AppButton(
+                                isPrimary: true,
+                                onPressed: () async {
+                                  // Fix validation logic
+                                  if (_formKey.currentState!.validate()) {
+                                    await _controller.doSignIn(
+                                      userData: UserModel(
+                                        name: _nameController.text,
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      ),
+                                    );
+                                  }
+                                },
+                                label: "Sign In",
                               ),
-                              const SizedBox(height: 30),
-                              AppPasswordInput(
-                                textEditingController: _passwordController,
-                                placeholder: "Password",
-                                label: "Enter your password",
-                                validator: Validator.validatePassword,
+                              const SizedBox(height: 15),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Do not have an account? ",
+                                    style: AppTextStyle.headline.copyWith(
+                                      color: AppColors.tertiary,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        AppRoutes.signUp,
+                                      );
+                                    },
+                                    child: Text(
+                                      "Sing Up",
+                                      style: AppTextStyle.headline.copyWith(
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AppButton(
-                          isPrimary: true,
-                          onPressed: () async {
-                            // Fix validation logic
-                            if (_formKey.currentState!.validate()) {
-                              await _controller.doSignIn(
-                                userData: UserModel(
-                                  name: _nameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                ),
-                              );
-                            }
-                          },
-                          label: "Sign In",
-                        ),
-                        const SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Do not have an account? ",
-                              style: AppTextStyle.headline.copyWith(
-                                color: AppColors.tertiary,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, AppRoutes.signUp);
-                              },
-                              child: Text(
-                                "Sing Up",
-                                style: AppTextStyle.headline.copyWith(
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

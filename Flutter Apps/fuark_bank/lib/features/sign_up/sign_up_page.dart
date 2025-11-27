@@ -28,7 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _controller = locator.get<SignUpController>();
-  
 
   @override
   void dispose() {
@@ -68,7 +67,8 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       if (_controller.state is SignUpErrorState) {
-        final errorMessage = (_controller.state as SignUpErrorState).errorMessage;
+        final errorMessage =
+            (_controller.state as SignUpErrorState).errorMessage;
         Navigator.pop(context);
         customShowModalBottomSheet(context, errorMessage, "Try again!");
       }
@@ -80,139 +80,148 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(color: Colors.black),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 40,
-            bottom: 40,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 5,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(color: AppColors.black),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 40,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 40,
+                  bottom: 40,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Start Saving Your",
-                          style: AppTextStyle.h1.copyWith(
-                            color: AppColors.white,
-                          ),
-                        ),
-                        Text(
-                          "Money!",
-                          style: AppTextStyle.h1.copyWith(
-                            color: AppColors.primaryColor,
-                            fontSize: 40,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 40),
-                    Form(
-                      key: _formKey,
+                    Expanded(
+                      flex: 5,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppInput(
-                            textEditingController: _nameController,
-                            label: "Your name",
-                            placeholder: "John Doe",
-                            inputFormatters: [UppercaseTextFormater()],
-                            validator: Validator.validateName,
-                          ),
-                          const SizedBox(height: 30),
-                          AppInput(
-                            textEditingController: _emailController,
-                            label: "Your email",
-                            placeholder: "youremail@example.com",
-                            validator: Validator.validateEmail,
-                          ),
-                          const SizedBox(height: 30),
-                          AppPasswordInput(
-                            textEditingController: _passwordController,
-                            placeholder: "Password",
-                            label: "Choose your password",
-                            helperText:
-                                "Your password must be at least 8 characters, one uppercase letter, one number and one special character",
-                            validator: Validator.validatePassword,
-                          ),
-                          const SizedBox(height: 30),
-                          AppPasswordInput(
-                            textEditingController: _confirmPasswordController,
-                            placeholder: "Password",
-                            label: "Confirm your password",
-                            validator: (value) =>
-                                Validator.validateConfirmPassword(
-                                  _passwordController.text,
-                                  value,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Start Saving Your",
+                                style: AppTextStyle.h1.copyWith(
+                                  color: AppColors.white,
                                 ),
+                              ),
+                              Text(
+                                "Money!",
+                                style: AppTextStyle.h1.copyWith(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 40,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 40),
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                AppInput(
+                                  textEditingController: _nameController,
+                                  label: "Your name",
+                                  placeholder: "John Doe",
+                                  inputFormatters: [UppercaseTextFormater()],
+                                  validator: Validator.validateName,
+                                ),
+                                const SizedBox(height: 30),
+                                AppInput(
+                                  textEditingController: _emailController,
+                                  label: "Your email",
+                                  placeholder: "youremail@example.com",
+                                  validator: Validator.validateEmail,
+                                ),
+                                const SizedBox(height: 30),
+                                AppPasswordInput(
+                                  textEditingController: _passwordController,
+                                  placeholder: "Password",
+                                  label: "Choose your password",
+                                  helperText:
+                                      "Your password must be at least 8 characters, one uppercase letter, one number and one special character",
+                                  validator: Validator.validatePassword,
+                                ),
+                                const SizedBox(height: 30),
+                                AppPasswordInput(
+                                  textEditingController:
+                                      _confirmPasswordController,
+                                  placeholder: "Password",
+                                  label: "Confirm your password",
+                                  validator: (value) =>
+                                      Validator.validateConfirmPassword(
+                                        _passwordController.text,
+                                        value,
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AppButton(
+                              isPrimary: true,
+                              onPressed: () async {
+                                // Fix validation logic
+                                if (_formKey.currentState!.validate()) {
+                                  await _controller.doSignUp(
+                                    userData: UserModel(
+                                      name: _nameController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                    ),
+                                  );
+                                }
+                              },
+                              label: "Sign Up",
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Already have account? ",
+                                  style: AppTextStyle.headline.copyWith(
+                                    color: AppColors.tertiary,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRoutes.signIn,
+                                    );
+                                  },
+                                  child: Text(
+                                    "Sing In",
+                                    style: AppTextStyle.headline.copyWith(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Expanded(
-                child: Align(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppButton(
-                        isPrimary: true,
-                        onPressed: () async {
-                          // Fix validation logic
-                          if (_formKey.currentState!.validate()) {
-                            await _controller.doSignUp(
-                              userData: UserModel(
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                            );
-                          }
-                        },
-                        label: "Sign Up",
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Already have account? ",
-                            style: AppTextStyle.headline.copyWith(
-                              color: AppColors.tertiary,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.signIn,
-                              );
-                            },
-                            child: Text(
-                              "Sing In",
-                              style: AppTextStyle.headline.copyWith(
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -42,4 +42,10 @@ class MockAuthService implements AuthService {
       throw "Can not create your accont. Try again later!";
     }
   }
+  
+  @override
+  Future<void> signOut() {
+    // TODO: implement signOut
+    throw UnimplementedError();
+  }
 }

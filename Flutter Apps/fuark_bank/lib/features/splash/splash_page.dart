@@ -1,9 +1,10 @@
-import 'dart:async';
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
-import 'package:fuark_bank/common/constants/app_routes.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
+import 'package:fuark_bank/features/splash/splash_controller.dart';
+import 'package:fuark_bank/features/splash/splash_state.dart';
+import 'package:fuark_bank/locator.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,19 +14,25 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  final _splashController = locator.get<SplashController>();
 
   @override
   void initState() {
     super.initState();
-    init();
+    _splashController.isUserLogged();
+    _splashController.addListener(() {
+      if(_splashController.state is SplashSuccessState){
+        log("home");
+      }else{
+        log("on");
+      }
+    });
   }
 
-  Timer init(){
-    return Timer(Duration(seconds: 2), navigateToOnboarding);
-  }
-
-  void navigateToOnboarding(){
-    Navigator.pushReplacementNamed(context, AppRoutes.initial);
+  @override
+  void dispose() {
+    _splashController.dispose();
+    super.dispose();
   }
 
   @override

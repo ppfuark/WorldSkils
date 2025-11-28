@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_routes.dart';
 import 'package:fuark_bank/common/constants/app_theme_data.dart';
+import 'package:fuark_bank/features/home/home_page.dart';
 import 'package:fuark_bank/features/onboarding/onboarding_page.dart';
 import 'package:fuark_bank/features/sign_up/sign_up_page.dart';
 import 'package:fuark_bank/features/sing_in/sign_in_page.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.signUp: (context) => const SignUpPage(),
         AppRoutes.signIn: (context) => const SignInPage(),
         AppRoutes.splash: (context) => const SplashPage(),
+        AppRoutes.home: (context) => const HomePage(),
       },
     );
   }

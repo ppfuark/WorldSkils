@@ -1,6 +1,6 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fuark_bank/common/constants/app_colors.dart';
+import 'package:fuark_bank/common/constants/app_routes.dart';
 import 'package:fuark_bank/common/constants/app_text_style.dart';
 import 'package:fuark_bank/features/splash/splash_controller.dart';
 import 'package:fuark_bank/features/splash/splash_state.dart';
@@ -22,9 +22,9 @@ class _SplashPageState extends State<SplashPage> {
     _splashController.isUserLogged();
     _splashController.addListener(() {
       if(_splashController.state is SplashSuccessState){
-        log("home");
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
       }else{
-        log("on");
+        Navigator.pushReplacementNamed(context, AppRoutes.initial);
       }
     });
   }

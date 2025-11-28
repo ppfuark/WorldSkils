@@ -55,14 +55,8 @@ class _SignInPageState extends State<SignInPage> {
       }
 
       if (_controller.state is SignInSuccessState) {
-        // Navigate only after success
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) =>
-                const Scaffold(body: Center(child: Text("New Page"))),
-          ),
-          (route) => false,
-        );
+         Navigator.pop(context);
+         Navigator.pushReplacementNamed(context, AppRoutes.home);
       }
 
       if (_controller.state is SignInErrorState) {

@@ -56,14 +56,8 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       if (_controller.state is SignUpSuccessState) {
-        // Navigate only after success
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) =>
-                const Scaffold(body: Center(child: Text("New Page"))),
-          ),
-          (route) => false,
-        );
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
       }
 
       if (_controller.state is SignUpErrorState) {

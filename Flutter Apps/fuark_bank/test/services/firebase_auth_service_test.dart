@@ -16,21 +16,42 @@ void main() {
     id: "1a2b3c4d5e",
   );
 
-  test("Test sign up sucess", () async {
-    when(
-      () => mockFirebaseAuthService.signUp(
+  group("Tests SignUp", () {
+    test("Test sign up sucess", () async {
+      when(
+        () => mockFirebaseAuthService.signUp(
+          name: "User",
+          email: "user@mail.com ",
+          password: "User@123",
+        ),
+      ).thenAnswer((_) async => user);
+
+      final result = await mockFirebaseAuthService.signUp(
         name: "User",
         email: "user@mail.com ",
         password: "User@123",
-      ),
-    ).thenAnswer((_) async => user);
+      );
 
-    final result = await mockFirebaseAuthService.signUp(
-      name: "User",
-      email: "user@mail.com ",
-      password: "User@123",
-    );
+      expect(result, user);
+    });
 
-    expect(result, user);
+    test("Test sign up failure", () async {
+      when(
+        () => mockFirebaseAuthService.signUp(
+          name: "User",
+          email: "user@mail.com ",
+          password: "User@123",
+        ),
+      ).thenThrow(Exception());
+
+      expect(
+        () => mockFirebaseAuthService.signUp(
+          name: "User",
+          email: "user@mail.com ",
+          password: "User@123",
+        ),
+        throwsException,
+      );
+    });
   });
 }

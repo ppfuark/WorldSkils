@@ -6,8 +6,9 @@ import 'package:fuark_bank/services/secure_storage.dart';
 
 class SignUpController extends ChangeNotifier {
   final AuthService _authService;
+  final SecureStorage _secureStorage;
 
-  SignUpController(this._authService);
+  SignUpController(this._authService, this._secureStorage);
 
   SignUpState state = SignUpInitialState();
 
@@ -17,7 +18,6 @@ class SignUpController extends ChangeNotifier {
   }
 
   Future<void> doSignUp({required UserModel userData}) async {
-    final secureStorage = SecureStorage();
     changeState(SignUpLoadingState());
 
     try {
@@ -27,7 +27,7 @@ class SignUpController extends ChangeNotifier {
         name: userData.name,
       );
       if (user.id != null) {
-        await secureStorage.write(key: "CURRENT_USER", value: user.toJson());
+        await _secureStorage.write(key: "CURRENT_USER", value: user.toJson());
         changeState(SignUpSuccessState());
       } else{
         throw Exception();

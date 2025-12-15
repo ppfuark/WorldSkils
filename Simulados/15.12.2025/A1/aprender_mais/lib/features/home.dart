@@ -23,16 +23,24 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    // Register listener for AppState changes
+    // The listener was removed here from initState(), as it's better to do it in didChangeDependencies().
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Now it's safe to use context.watch() or context.read()
     context.watch<AppState>().addListener(_appStateListener);
 
+    // Check battery and connection after dependencies are established.
     _checkBattery();
     _checkConnection();
   }
 
   @override
   void dispose() {
-    // Clean up listener when the widget is disposed
+    // Remove listener when the widget is disposed to avoid memory leaks
     context.read<AppState>().removeListener(_appStateListener);
     super.dispose();
   }

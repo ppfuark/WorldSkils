@@ -1,21 +1,40 @@
-import 'dart:async';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:b1_grotech/features/network/network_controller.dart';
 import 'package:flutter/material.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final NetworkController _networkController = NetworkController();
+  
+  @override
+  void initState() {
+    super.initState();
+    _networkController.init(navigatorKey);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _networkController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -31,59 +50,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Connectivity connectivity = Connectivity();
-
-  bool isConnected = false;
-  late final StreamSubscription connectivityStream;
-
-  void checkConnectivity() async {
-    List<ConnectivityResult> results = await connectivity.checkConnectivity();
-
-    setState(() {
-      isConnected = !results.contains(ConnectivityResult.none);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    checkConnectivity();
-
-    connectivityStream = connectivity.onConnectivityChanged.listen((List<ConnectivityResult> results){
-      setState(() {
-        isConnected = !results.contains(ConnectivityResult.none);
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    connectivityStream.cancel(); 
-
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: .center,
-          children: [
-            isConnected? 
-            Text("Connected"):
-            Text("Not Connected")
-          ],
+          children: [Text("Home Page")],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: checkConnectivity,
-        tooltip: 'Increment',
-        child: const Icon(Icons.wifi),
       ),
     );
   }

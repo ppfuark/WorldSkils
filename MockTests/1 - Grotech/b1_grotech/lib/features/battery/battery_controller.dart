@@ -53,7 +53,7 @@ class BatteryController {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: Duration(seconds: 3)),
+      SnackBar(content: Text(message), duration: Duration(seconds: 5)),
     );
   }
 

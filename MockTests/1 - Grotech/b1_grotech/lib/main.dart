@@ -1,4 +1,5 @@
 import 'package:b1_grotech/features/battery/battery_controller.dart';
+import 'package:b1_grotech/features/login/login_page.dart';
 import 'package:b1_grotech/features/network/network_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -36,10 +37,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const LoginPage(),
     );
   }
 }

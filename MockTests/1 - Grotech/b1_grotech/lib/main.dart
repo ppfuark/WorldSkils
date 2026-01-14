@@ -1,3 +1,4 @@
+import 'package:b1_grotech/features/battery/battery_controller.dart';
 import 'package:b1_grotech/features/network/network_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -16,17 +17,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final NetworkController _networkController = NetworkController();
+  final BatteryController _batteryController = BatteryController();
   
   @override
   void initState() {
     super.initState();
     _networkController.init(navigatorKey);
+    _batteryController.init(navigatorKey);
   }
 
   @override
   void dispose() {
     super.dispose();
     _networkController.dispose();
+    _batteryController.dispose();
   }
 
   @override

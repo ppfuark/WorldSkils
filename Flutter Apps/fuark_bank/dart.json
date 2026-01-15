@@ -1,0 +1,27 @@
+{
+	"Controller": {
+		"prefix": "controller",
+		"body": [
+			"class ${1:MyClass}Controller extends ChangeNotifier {",
+			"",
+			"  ${1:MyClass}Controller(this._authService);",
+			"  ${1:MyClass}State state = ${1:MyClass}InitialState();",
+			"  void changeState(${1:MyClass}State newState) {",
+			"    state = newState;",
+			"    notifyListeners();",
+			"  }}"
+		]
+	},
+	"State": {
+		"prefix": "state",
+		"body": [
+			"abstract class ${1:MyClass}State {}",
+			"class ${1:MyClass}LoadingState extends ${1:MyClass}State {}",
+			"class ${1:MyClass}SuccessState extends ${1:MyClass}State {}",
+			"class ${1:MyClass}ErrorState extends ${1:MyClass}State {",
+			"  final String errorMessage;",
+			"  ${1:MyClass}ErrorState(this.errorMessage);}",
+			"class ${1:MyClass}InitialState extends ${1:MyClass}State {}"
+		]
+	}
+}

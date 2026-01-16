@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "65426182446",
+    "project_id": "ytauthapp",
+    "storage_bucket": "ytauthapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65426182446:android:408b0bfb627d83afa4eabf",
+        "android_client_info": {
+          "package_name": "com.ppfuark.yt_auth_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ23Jnt9yzc9Rur4CBd2Y3o53WwqAP8sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

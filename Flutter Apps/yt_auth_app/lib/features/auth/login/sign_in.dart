@@ -1,15 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:yt_auth_app/common/models/user_model.dart';
 import 'package:yt_auth_app/common/widgets/app_brand_button.dart';
 import 'package:yt_auth_app/common/widgets/app_button.dart';
 import 'package:yt_auth_app/common/widgets/app_textfield.dart';
+import 'package:yt_auth_app/features/home/home.dart';
+import 'package:yt_auth_app/services/auth/firebase_auth_service.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
 
-  final usernameController = TextEditingController();
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
+
+  final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
 
-  void signUserIn() {}
+  late Future<UserModel> request;
+
+  void signUserIn() async {
+  try {
+    final user = await _firebaseAuthService.signIn(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const Home()),
+    );
+  } catch (e) {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(e.toString()),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+}
+
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +69,9 @@ class LoginPage extends StatelessWidget {
               Text("Welcome back your've been missed!"),
               SizedBox(height: 25),
               AppTextfield(
-                controller: usernameController,
+                controller: emailController,
                 obscureText: false,
-                hintText: "Username",
+                hintText: "email",
               ),
               SizedBox(height: 25),
               AppTextfield(
@@ -85,7 +128,10 @@ class LoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Not a member?", style: TextStyle(color: Colors.grey[700])),
+                  Text(
+                    "Not a member?",
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
                   SizedBox(width: 4),
                   Text(
                     "Register Now",

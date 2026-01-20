@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837625158972",
+    "project_id": "chat-app-fuark",
+    "storage_bucket": "chat-app-fuark.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837625158972:android:1484a44dd28ea9f0391239",
+        "android_client_info": {
+          "package_name": "com.ppfuark.chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbxBXwiy58uh50FONA8mGQRT4ZIm812VU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

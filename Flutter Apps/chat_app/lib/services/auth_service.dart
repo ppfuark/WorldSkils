@@ -25,4 +25,8 @@ class AuthService {
       rethrow;
     }
   }
+
+  void signOut() async{
+    return await _auth.signOut();
+  }
 }

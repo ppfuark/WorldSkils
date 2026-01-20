@@ -1,3 +1,4 @@
+import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,12 +9,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void logOut() async {
+    AuthService authService = AuthService();
+    authService.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Text("AA")],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home Page"),
+        actions: [IconButton(icon: Icon(Icons.logout), onPressed: logOut)],
       ),
     );
   }

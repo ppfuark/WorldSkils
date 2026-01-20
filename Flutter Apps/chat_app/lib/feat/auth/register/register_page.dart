@@ -1,7 +1,7 @@
 import 'package:chat_app/common/widgets/app_button.dart';
 import 'package:chat_app/common/widgets/app_text_field.dart';
 import 'package:chat_app/feat/auth/login/login_page.dart';
-import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

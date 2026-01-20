@@ -1,6 +1,5 @@
 import 'package:chat_app/common/widgets/app_button.dart';
 import 'package:chat_app/common/widgets/app_text_field.dart';
-import 'package:chat_app/services/auth_gate.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -17,22 +16,30 @@ class _LoginPageState extends State<LoginPage> {
   final emailContoller = TextEditingController();
   final passwordContoller = TextEditingController();
 
-  void singIn() {
+  void singIn() async {
     try {
-      final AuthService authService = AuthService();
+      if (emailContoller.text == "" || passwordContoller.text == "") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Fields cannot be null"),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      } else {
+        final AuthService authService = AuthService();
 
-      authService.signInEmailPassword(
-        emailContoller.text,
-        passwordContoller.text,
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AuthGate()),
-      );
+        await authService.signInEmailPassword(
+          emailContoller.text,
+          passwordContoller.text,
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+        );
+      }
     }
   }
 

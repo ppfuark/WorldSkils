@@ -1,5 +1,6 @@
 import 'package:chat_app/common/widgets/app_button.dart';
 import 'package:chat_app/common/widgets/app_text_field.dart';
+import 'package:chat_app/feat/auth/login/login_page.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,21 +22,35 @@ class _RegisterPageState extends State<RegisterPage> {
   void signUp() async {
     try {
       if (passwordContoller.text != confirmPasswordContoller.text) {
-        throw Exception();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Passwords don't match!"),
+            backgroundColor: Colors.red,
+          ),
+        );
       } else {
         AuthService authService = AuthService();
         UserCredential userCredential = await authService.signUpEmailPassword(
           emailContoller.text,
           passwordContoller.text,
         );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Deu bom"), backgroundColor: Colors.green,),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("User created!"),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginPage()),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Cannot create user, check your credentials"), backgroundColor: Colors.red,),
+          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
         );
       }
     }

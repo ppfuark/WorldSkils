@@ -1,5 +1,6 @@
 import 'package:chat_app/common/widgets/app_button.dart';
 import 'package:chat_app/common/widgets/app_text_field.dart';
+import 'package:chat_app/services/auth_gate.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +25,9 @@ class _LoginPageState extends State<LoginPage> {
         emailContoller.text,
         passwordContoller.text,
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Deu bom"), backgroundColor: Colors.green),
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AuthGate()),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

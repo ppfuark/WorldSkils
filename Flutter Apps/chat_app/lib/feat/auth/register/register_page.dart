@@ -1,5 +1,7 @@
 import 'package:chat_app/common/widgets/app_button.dart';
 import 'package:chat_app/common/widgets/app_text_field.dart';
+import 'package:chat_app/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -16,7 +18,28 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordContoller = TextEditingController();
   final confirmPasswordContoller = TextEditingController();
 
-  void signUp() {}
+  void signUp() async {
+    try {
+      if (passwordContoller.text != confirmPasswordContoller.text) {
+        throw Exception();
+      } else {
+        AuthService authService = AuthService();
+        UserCredential userCredential = await authService.signUpEmailPassword(
+          emailContoller.text,
+          passwordContoller.text,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Deu bom"), backgroundColor: Colors.green,),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Cannot create user, check your credentials"), backgroundColor: Colors.red,),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

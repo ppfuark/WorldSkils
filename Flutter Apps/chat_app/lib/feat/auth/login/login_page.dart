@@ -1,5 +1,6 @@
 import 'package:chat_app/common/widgets/app_button.dart';
 import 'package:chat_app/common/widgets/app_text_field.dart';
+import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,7 +16,23 @@ class _LoginPageState extends State<LoginPage> {
   final emailContoller = TextEditingController();
   final passwordContoller = TextEditingController();
 
-  void singIn() {}
+  void singIn() {
+    try {
+      final AuthService authService = AuthService();
+
+      authService.signInEmailPassword(
+        emailContoller.text,
+        passwordContoller.text,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Deu bom"), backgroundColor: Colors.green),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

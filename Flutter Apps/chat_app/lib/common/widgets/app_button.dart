@@ -18,7 +18,9 @@ class AppButton extends StatelessWidget {
         ),
         padding: EdgeInsets.all(25),
         margin: EdgeInsets.symmetric(horizontal: 25),
-        child: Center(child: Text(text)),
+        child: Center(
+          child: Text(text, style: TextStyle(fontWeight: FontWeight.bold)),
+        ),
       ),
     );
   }

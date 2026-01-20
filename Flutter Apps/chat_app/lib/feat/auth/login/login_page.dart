@@ -3,7 +3,9 @@ import 'package:chat_app/common/widgets/app_text_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final void Function()? onTap;
+
+  const LoginPage({super.key, this.onTap});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -53,11 +55,14 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text("Not a member?", style: TextStyle(color: theme.primary)),
                   SizedBox(width: 4),
-                  Text(
-                    "Register now",
-                    style: TextStyle(
-                      color: Colors.blue.shade700,
-                      fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: widget.onTap,
+                    child: Text(
+                      "Register now",
+                      style: TextStyle(
+                        color: Colors.blue.shade700,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

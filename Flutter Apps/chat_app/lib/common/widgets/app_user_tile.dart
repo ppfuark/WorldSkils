@@ -11,11 +11,17 @@ class AppUserTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
           color: theme.secondary,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Row(children: [Icon(Icons.person)]),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [Icon(Icons.person), SizedBox(width: 4), Text(text)],
+          ),
+        ),
       ),
     );
   }

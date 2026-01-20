@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  User? getCurrentUser() => _auth.currentUser;
 
   Future<UserCredential> signInEmailPassword(
     String email,
@@ -15,7 +19,7 @@ class AuthService {
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      throw e.message ?? "Login failed";
+      throw Exception(e.message ?? "Login failed");
     }
   }
 
@@ -26,13 +30,20 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      await _firestore.collection("Users").doc(userCredential.user!.uid).set({
+        'uid': userCredential.user!.uid,
+        'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      throw e.message ?? "Sign Up failed";
+      throw Exception(e.message ?? "Sign Up failed");
     }
   }
 
-  void signOut() async {
-    return await _auth.signOut();
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

@@ -10,6 +10,13 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("Settings Page")));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text("Settings Page", style: TextStyle(color: Colors.grey)),
+        foregroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
   }
 }

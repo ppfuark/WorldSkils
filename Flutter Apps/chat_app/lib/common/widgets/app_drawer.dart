@@ -30,8 +30,9 @@ class AppDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 25),
                   child: ListTile(
-                    title: Text("HOME"),
+                    title: Text("HOME", style: TextStyle(color: Colors.grey)),
                     leading: Icon(Icons.home, color: theme.primary),
+
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -40,7 +41,10 @@ class AppDrawer extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 25),
                   child: ListTile(
-                    title: Text("SETTINGS"),
+                    title: Text(
+                      "SETTINGS",
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     leading: Icon(Icons.settings, color: theme.primary),
                     onTap: () {
                       Navigator.pop(context);
@@ -57,7 +61,7 @@ class AppDrawer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 25),
               child: ListTile(
-                title: Text("LOG OUT"),
+                title: Text("LOG OUT", style: TextStyle(color: Colors.grey)),
                 leading: Icon(Icons.logout, color: theme.primary),
                 onTap: logOut,
               ),

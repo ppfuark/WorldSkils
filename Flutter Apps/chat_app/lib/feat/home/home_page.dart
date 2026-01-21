@@ -19,7 +19,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home Page")),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey,
+        title: Text("Home Page"),
+        elevation: 0,
+      ),
       drawer: AppDrawer(),
       body: _buildUsersList(),
     );

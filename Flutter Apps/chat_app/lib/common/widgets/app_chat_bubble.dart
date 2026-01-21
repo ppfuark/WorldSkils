@@ -26,7 +26,7 @@ class AppChatBubble extends StatelessWidget {
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
-        color: isCurrentUser ? Colors.green : Colors.white,
+        color: isCurrentUser ? Colors.green : Colors.grey[300],
       ),
       child: Text(
         message,

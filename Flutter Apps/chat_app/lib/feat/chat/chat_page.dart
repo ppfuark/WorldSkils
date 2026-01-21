@@ -84,6 +84,7 @@ class _ChatPageState extends State<ChatPage> {
         : Alignment.centerLeft;
 
     return Container(
+      margin: EdgeInsets.only(top: 4),
       alignment: alignment,
       child: AppChatBubble(
         message: data["message"],

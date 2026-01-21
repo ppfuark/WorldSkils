@@ -1,3 +1,4 @@
+import 'package:chat_app/common/widgets/app_chat_bubble.dart';
 import 'package:chat_app/common/widgets/app_text_field.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
@@ -38,11 +39,14 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.receiverEmail)),
-      body: Column(
-        children: [
-          Expanded(child: _buildMessageList()),
-          _buildUserInput(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+        child: Column(
+          children: [
+            Expanded(child: _buildMessageList()),
+            _buildUserInput(),
+          ],
+        ),
       ),
     );
   }
@@ -72,22 +76,51 @@ class _ChatPageState extends State<ChatPage> {
   Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-    return Text(data["message"]);
+    // Sides of a message
+    bool isCurrentUser = data["senderId"] == _authService.getCurrentUser()!.uid;
+
+    var alignment = isCurrentUser
+        ? Alignment.centerRight
+        : Alignment.centerLeft;
+
+    return Container(
+      alignment: alignment,
+      child: AppChatBubble(
+        message: data["message"],
+        isCurrentUser: isCurrentUser,
+      ),
+    );
   }
 
   Widget _buildUserInput() {
-    return Row(
-      children: [
-        Expanded(
-          child: AppTextField(
-            hintText: "Type a message",
-            controller: _messageController,
-            obscureText: false,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 50.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: AppTextField(
+              hintText: "Type a message",
+              controller: _messageController,
+              obscureText: false,
+            ),
           ),
-        ),
 
-        IconButton(onPressed: sendMessage, icon: Icon(Icons.arrow_upward)),
-      ],
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: IconButton(
+                onPressed: sendMessage,
+                icon: Icon(Icons.arrow_upward, color: Colors.white),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

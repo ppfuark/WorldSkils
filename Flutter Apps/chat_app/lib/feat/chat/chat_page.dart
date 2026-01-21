@@ -24,6 +24,36 @@ class _ChatPageState extends State<ChatPage> {
   final ChatService _chatService = ChatService();
   final AuthService _authService = AuthService();
 
+  FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        Future.delayed(Duration(milliseconds: 500), () => scrollDown());
+      }
+    });
+
+    Future.delayed(Duration(milliseconds: 500), () => scrollDown());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  final ScrollController _scrollController = ScrollController();
+  void scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
       await _chatService.sendMessage(
@@ -70,6 +100,7 @@ class _ChatPageState extends State<ChatPage> {
         }
 
         return ListView(
+          controller: _scrollController,
           children: snapshot.data!.docs
               .map((doc) => _buildMessageItem(doc))
               .toList(),
@@ -107,6 +138,7 @@ class _ChatPageState extends State<ChatPage> {
             hintText: "Type a message",
             controller: _messageController,
             obscureText: false,
+            focusNode: focusNode,
           ),
         ),
 

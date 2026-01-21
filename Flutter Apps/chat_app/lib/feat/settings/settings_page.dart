@@ -1,4 +1,3 @@
-import 'package:chat_app/themes/dark_mode.dart';
 import 'package:chat_app/themes/theme_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

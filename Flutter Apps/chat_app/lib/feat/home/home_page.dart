@@ -1,7 +1,7 @@
 import 'package:chat_app/common/widgets/app_drawer.dart';
 import 'package:chat_app/common/widgets/app_user_tile.dart';
 import 'package:chat_app/feat/chat/chat_page.dart';
-import 'package:chat_app/services/auth/auth_service.dart';
+// import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ChatService _chatService = ChatService();
-  final AuthService _authService = AuthService();
+  // final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {

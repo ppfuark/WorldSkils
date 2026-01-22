@@ -1,3 +1,4 @@
+import 'package:estudy/common/app_drawer.dart';
 import 'package:estudy/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: AppBar(
         actions: [
           IconButton(

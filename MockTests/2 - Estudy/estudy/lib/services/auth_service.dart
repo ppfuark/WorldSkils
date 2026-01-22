@@ -45,4 +45,20 @@ class AuthService {
   Stream<DocumentSnapshot> getUser(String userId) {
     return _firestore.collection("Users").doc(userId).snapshots();
   }
+
+  Stream<List<Map<String, dynamic>>> getUsers() {
+    return _firestore.collection("Users").snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        final user = doc.data();
+
+        return user;
+      }).toList();
+    });
+  }
+
+  Future<bool> isAdmin(String uid)async{
+    final doc = await _firestore.collection("Users").doc(uid).get();
+    final data = doc.data();
+    return data?["user_level"] == "Admin";
+  }
 }

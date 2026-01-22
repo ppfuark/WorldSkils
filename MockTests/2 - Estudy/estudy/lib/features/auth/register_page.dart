@@ -28,6 +28,10 @@ class _RegisterPageState extends State<RegisterPage> {
             _emailController.text,
             _passwordController.text,
           );
+
+          if (mounted) {
+            Navigator.pop(context);
+          }
         } on Exception catch (e) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(

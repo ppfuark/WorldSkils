@@ -1,6 +1,7 @@
 import 'package:estudy/common/app_button.dart';
 import 'package:estudy/common/app_text_field.dart';
 import 'package:estudy/features/auth/register_page.dart';
+import 'package:estudy/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +14,33 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  void singIn() async {
+    final AuthService authService = AuthService();
+
+    if (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      try {
+        await authService.singIn(
+          _emailController.text,
+          _passwordController.text,
+        );
+      } on Exception catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+          );
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Campos não podem estar vazios"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +83,11 @@ class _LoginPageState extends State<LoginPage> {
                     icon: Icons.lock_outline,
                     label: "Senha",
                     hintText: "senha123@",
-                    isPasswordField: false,
+                    isPasswordField: true,
                     controller: _passwordController,
                   ),
                   SizedBox(height: 50),
-                  AppButton(label: "ENTRAR"),
+                  AppButton(label: "ENTRAR", onTap: singIn),
                 ],
               ),
               Row(

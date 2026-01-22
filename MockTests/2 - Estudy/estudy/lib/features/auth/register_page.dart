@@ -1,3 +1,6 @@
+import 'package:estudy/common/app_button.dart';
+import 'package:estudy/common/app_text_field.dart';
+import 'package:estudy/features/auth/login_page.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -8,13 +11,91 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("Register")],
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 25,
+            right: 25,
+            bottom: 50,
+            top: 160,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Bem-vindo",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: theme.tertiary,
+                    ),
+                  ),
+                  SizedBox(height: 50),
+                  AppTextField(
+                    icon: Icons.email_outlined,
+                    label: "E-mail",
+                    hintText: "seu@email.com",
+                    isPasswordField: false,
+                    controller: _emailController,
+                  ),
+                  SizedBox(height: 25),
+                  AppTextField(
+                    icon: Icons.lock_outline,
+                    label: "Senha",
+                    hintText: "senha123@",
+                    isPasswordField: false,
+                    controller: _passwordController,
+                  ),
+                  SizedBox(height: 25),
+                  AppTextField(
+                    icon: Icons.lock_outline,
+                    label: "Confime a senha",
+                    hintText: "senha123@",
+                    isPasswordField: false,
+                    controller: _confirmPasswordController,
+                  ),
+                  SizedBox(height: 50),
+                  AppButton(label: "REGISTRE-SE"),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Já possui uma conta?"),
+                  SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Text(
+                      "Entre",
+                      style: TextStyle(
+                        color: theme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

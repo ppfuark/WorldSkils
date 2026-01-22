@@ -1,6 +1,7 @@
 import 'package:estudy/common/app_button.dart';
 import 'package:estudy/common/app_text_field.dart';
 import 'package:estudy/features/auth/login_page.dart';
+import 'package:estudy/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -15,6 +16,45 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  void singUp() async {
+    final AuthService authService = AuthService();
+
+    if (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      if (_confirmPasswordController.text == _passwordController.text) {
+        try {
+          await authService.singUp(
+            _emailController.text,
+            _passwordController.text,
+          );
+        } on Exception catch (e) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(e.toString()),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("As senhas não coincidem"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Os campos não podem estar vazios"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     icon: Icons.lock_outline,
                     label: "Senha",
                     hintText: "senha123@",
-                    isPasswordField: false,
+                    isPasswordField: true,
                     controller: _passwordController,
                   ),
                   SizedBox(height: 25),
@@ -65,11 +105,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     icon: Icons.lock_outline,
                     label: "Confime a senha",
                     hintText: "senha123@",
-                    isPasswordField: false,
+                    isPasswordField: true,
                     controller: _confirmPasswordController,
                   ),
                   SizedBox(height: 50),
-                  AppButton(label: "REGISTRE-SE"),
+                  AppButton(label: "REGISTRE-SE", onTap: singUp),
                 ],
               ),
               Row(

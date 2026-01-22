@@ -9,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final AuthService _authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,25 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(child: Text("Home")),
+      body: Center(
+        child: StreamBuilder(
+          stream: _authService.getUser(_authService.getCurrentUser()!.uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+
+            if (!snapshot.hasData) {
+              return Text("Usuário não encontrado!");
+            }
+
+            final data = snapshot.data!.data() as Map<String, dynamic>;
+            final userLeve = data["user_level"];
+
+            return Text(userLeve);
+          },
+        ),
+      ),
     );
   }
 }

@@ -39,4 +39,10 @@ class AuthService {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  User? getCurrentUser() => _auth.currentUser;
+
+  Stream<DocumentSnapshot> getUser(String userId) {
+    return _firestore.collection("Users").doc(userId).snapshots();
+  }
 }

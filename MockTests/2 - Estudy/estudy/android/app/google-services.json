@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "91725791419",
+    "project_id": "estudy-11a65",
+    "storage_bucket": "estudy-11a65.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91725791419:android:4e76786ca21bea8f76e99e",
+        "android_client_info": {
+          "package_name": "com.ppfuark.estudy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7JX4QLIyjPMjZEZF7j__95FGbgMbEzy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

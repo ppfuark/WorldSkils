@@ -7,6 +7,16 @@ class AuthService {
 
   Future<UserCredential> singIn(String email, String password) async {
     try {
+      final query = await _firestore
+          .collection("Users")
+          .where("email", isEqualTo: email)
+          .limit(1)
+          .get();
+
+      if (query.docs.isNotEmpty && query.docs.first.data()['blocked'] == true) {
+        throw Exception("Conta bloqueada. Contate o adminstrador.");
+      }
+
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -20,6 +30,16 @@ class AuthService {
 
   Future<UserCredential> singUp(String email, String password) async {
     try {
+      final query = await _firestore
+          .collection("Users")
+          .where("email", isEqualTo: email)
+          .limit(1)
+          .get();
+
+      if (query.docs.isNotEmpty && query.docs.first.data()['blocked'] == true) {
+        throw Exception("Conta bloqueada. Contate o adminstrador.");
+      }
+
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
@@ -28,6 +48,7 @@ class AuthService {
         'email': email,
         'createAt': FieldValue.serverTimestamp(),
         'user_level': 'Student',
+        'blocked': false,
       });
 
       return userCredential;
@@ -56,9 +77,17 @@ class AuthService {
     });
   }
 
-  Future<bool> isAdmin(String uid)async{
+  Future<bool> isAdmin(String uid) async {
     final doc = await _firestore.collection("Users").doc(uid).get();
     final data = doc.data();
     return data?["user_level"] == "Admin";
+  }
+
+  Future<void> blockUser(String uid) async {
+    await _firestore.collection("Users").doc(uid).update({'blocked': true});
+  }
+
+  Future<void> unBlockUser(String uid) async {
+    await _firestore.collection("Users").doc(uid).update({'blocked': false});
   }
 }

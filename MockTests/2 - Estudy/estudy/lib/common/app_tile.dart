@@ -6,10 +6,12 @@ class AppTile extends StatelessWidget {
   final IconData icon;
 
   final bool isEditable;
-  final Function()? onEdit;
+  final void Function()? onEdit;
 
   final bool isDeletable;
   final Function()? onDelete;
+
+  final bool block;
 
   const AppTile({
     super.key,
@@ -20,6 +22,7 @@ class AppTile extends StatelessWidget {
     required this.isDeletable,
     this.onDelete,
     this.subtitle,
+    required this.block,
   });
 
   @override
@@ -101,7 +104,9 @@ class AppTile extends StatelessWidget {
                       ),
                       child: IconButton(
                         onPressed: onDelete,
-                        icon: Icon(Icons.delete_outlined, color: Colors.white),
+                        icon: block
+                            ? Icon(Icons.block_outlined, color: Colors.white)
+                            : Icon(Icons.delete_outlined, color: Colors.white),
                       ),
                     );
                   } else {

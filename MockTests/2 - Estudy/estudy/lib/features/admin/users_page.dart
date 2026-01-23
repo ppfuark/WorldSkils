@@ -37,7 +37,7 @@ class _UsersPageState extends State<UsersPage> {
 
             return ListView(
               children: snapshot.data!
-                  .map<Widget>((userData) => _buildUserItem(userData, context))
+                  .map<Widget>((userData) => _buildUserItem(userData))
                   .toList(),
             );
           },
@@ -46,16 +46,60 @@ class _UsersPageState extends State<UsersPage> {
     );
   }
 
-  Widget _buildUserItem(Map<String, dynamic> userData, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: AppTile(
-        title: userData["email"],
-        subtitle: userData["user_level"],
-        icon: Icons.person_outline,
-        isDeletable: true,
-        isEditable: true,
-      ),
+  Widget _buildUserItem(Map<String, dynamic> userData) {
+    final AuthService authService = AuthService();
+
+    if (userData['email'] == authService.getCurrentUser()!.email) {
+      return SizedBox.shrink();
+    } else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: AppTile(
+          title: userData["email"],
+          subtitle: userData["user_level"],
+          icon: Icons.person_outline,
+          isDeletable: true,
+          onDelete: () => _showBlockodal(userData, context),
+          isEditable: true,
+          block: true,
+        ),
+      );
+    }
+  }
+
+  void _showBlockodal(
+    Map<String, dynamic> userData,
+    BuildContext context,
+  ) async {
+    final bool isBlocked = userData['blocked'];
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: isBlocked
+              ? Text("Você realmente deseja desbloquear o usuário?")
+              : Text("Você realmente deseja bloquear o usuário?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () {
+                final AuthService authService = AuthService();
+                isBlocked
+                    ? authService.unBlockUser(userData['uid'])
+                    : authService.blockUser(userData['uid']);
+                Navigator.pop(context);
+              },
+              child: isBlocked ? Text("Desbloquear") : Text("Bloquear"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

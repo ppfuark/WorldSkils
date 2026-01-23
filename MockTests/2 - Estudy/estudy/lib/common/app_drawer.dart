@@ -1,4 +1,5 @@
 import 'package:estudy/features/admin/users_page.dart';
+import 'package:estudy/features/courses/courses_page.dart';
 import 'package:estudy/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +45,20 @@ class AppDrawer extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => UsersPage()),
                   );
                 },
+              );
+            },
+          ),
+          ListTile(
+            title: Text(
+              "C O U R S E S",
+              style: TextStyle(color: theme.primary),
+            ),
+            leading: Icon(Icons.school, color: theme.primary),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CoursesPage()),
               );
             },
           ),

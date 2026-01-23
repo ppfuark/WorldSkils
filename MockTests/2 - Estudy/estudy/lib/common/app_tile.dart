@@ -55,12 +55,16 @@ class AppTile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: theme.tertiary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                  SizedBox(
+                    width: 180,
+                    child: Text(
+                      overflow: TextOverflow.ellipsis,
+                      title,
+                      style: TextStyle(
+                        color: theme.tertiary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                   SizedBox(height: 4),

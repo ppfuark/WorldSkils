@@ -5,7 +5,8 @@ class AppTextField extends StatelessWidget {
   final String label;
   final String hintText;
   final bool isPasswordField;
-  final TextEditingController controller;
+  final TextEditingController? controller;
+  final bool? enabled;
 
   const AppTextField({
     super.key,
@@ -13,7 +14,8 @@ class AppTextField extends StatelessWidget {
     required this.label,
     required this.hintText,
     required this.isPasswordField,
-    required this.controller,
+    this.controller,
+    this.enabled
   });
 
   @override
@@ -33,6 +35,7 @@ class AppTextField extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         TextField(
+          enabled: enabled,
           controller: controller,
           obscureText: isPasswordField,
           decoration: InputDecoration(

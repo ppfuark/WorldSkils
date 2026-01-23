@@ -90,4 +90,8 @@ class AuthService {
   Future<void> unBlockUser(String uid) async {
     await _firestore.collection("Users").doc(uid).update({'blocked': false});
   }
+
+  Future<void> updateUser(String uid, Map<String, dynamic> userData) async {
+    await _firestore.collection("Users").doc(uid).update(userData);
+  }
 }

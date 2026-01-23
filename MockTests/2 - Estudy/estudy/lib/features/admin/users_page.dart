@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:estudy/common/app_text_field.dart';
 import 'package:estudy/common/app_tile.dart';
 import 'package:estudy/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +13,11 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
+  final AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
-    final AuthService authService = AuthService();
 
     return Scaffold(
       appBar: AppBar(
@@ -21,34 +25,30 @@ class _UsersPageState extends State<UsersPage> {
         foregroundColor: theme.tertiary,
         backgroundColor: Colors.transparent,
       ),
-      body: Expanded(
-        child: StreamBuilder(
-          stream: authService.getUsers(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (!snapshot.hasData) {
-              return Center(child: Text("Nenhum usuário encontrado!"));
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text("Erro na busca de usuários"));
-            }
+      body: StreamBuilder(
+        stream: authService.getUsers(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text("Erro na busca de usuários"));
+          }
+          if (!snapshot.hasData) {
+            return Center(child: Text("Nenhum usuário encontrado!"));
+          }
 
-            return ListView(
-              children: snapshot.data!
-                  .map<Widget>((userData) => _buildUserItem(userData))
-                  .toList(),
-            );
-          },
-        ),
+          return ListView(
+            children: snapshot.data!
+                .map<Widget>((userData) => _buildUserItem(userData))
+                .toList(),
+          );
+        },
       ),
     );
   }
 
   Widget _buildUserItem(Map<String, dynamic> userData) {
-    final AuthService authService = AuthService();
-
     if (userData['email'] == authService.getCurrentUser()!.email) {
       return SizedBox.shrink();
     } else {
@@ -61,6 +61,7 @@ class _UsersPageState extends State<UsersPage> {
           isDeletable: true,
           onDelete: () => _showBlockodal(userData, context),
           isEditable: true,
+          onEdit: () => _showEditForm(userData, context),
           block: true,
         ),
       );
@@ -89,13 +90,87 @@ class _UsersPageState extends State<UsersPage> {
             ),
             TextButton(
               onPressed: () {
-                final AuthService authService = AuthService();
                 isBlocked
                     ? authService.unBlockUser(userData['uid'])
                     : authService.blockUser(userData['uid']);
                 Navigator.pop(context);
               },
               child: isBlocked ? Text("Desbloquear") : Text("Bloquear"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showEditForm(Map<String, dynamic> userData, BuildContext context) {
+    List<String> userLevels = <String>["Student", "Teacher", "Admin"];
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Editar usuário"),
+          content: SizedBox(
+            width: 250,
+            height: 250,
+            child: Column(
+              children: [
+                AppTextField(
+                  icon: Icons.numbers_outlined,
+                  label: "uid",
+                  hintText: userData['uid'],
+                  isPasswordField: false,
+                  enabled: false,
+                ),
+                SizedBox(height: 10),
+                AppTextField(
+                  icon: Icons.email,
+                  label: "Email",
+                  hintText: userData['email'],
+                  isPasswordField: false,
+                  enabled: false,
+                ),
+                SizedBox(height: 10),
+                DropdownMenu<String>(
+                  expandedInsets: EdgeInsets.zero,
+                  initialSelection: userData['user_level'],
+                  onSelected: (value) {
+                    if (value != null) {
+                      userData["user_level"] = value;
+                    }
+                  },
+                  dropdownMenuEntries:
+                      UnmodifiableListView<DropdownMenuEntry<String>>(
+                        userLevels
+                            .map(
+                              (level) => DropdownMenuEntry<String>(
+                                style: ButtonStyle(),
+                                value: level,
+                                label: level,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                await authService.updateUser(userData["uid"], {
+                  "user_level": userData["user_level"],
+                });
+                if (mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text("Update"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancelar"),
             ),
           ],
         );

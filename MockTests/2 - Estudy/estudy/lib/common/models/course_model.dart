@@ -23,4 +23,15 @@ class CourseModel {
     durationSem = json['duration_semesters'];
     active = json['active'];
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "area": area,
+      "released_date": realeasedDate,
+      "duration_semesters": durationSem,
+      "active": active,
+    };
+  }
 }

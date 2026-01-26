@@ -41,4 +41,22 @@ class CoursesService {
       throw Exception("Erro ao buscar curso por ID");
     }
   }
+
+  Future<CourseModel> editCourses(int id, CourseModel course) async {
+    final response = await http.put(
+      Uri.parse(
+        'https://json-api-courses-production.up.railway.app/courses/${id.toString()}',
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(course.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return CourseModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Erro ao atualizar curso.");
+    }
+  }
 }

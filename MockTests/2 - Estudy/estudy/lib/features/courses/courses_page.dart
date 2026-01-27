@@ -47,25 +47,37 @@ class _CoursesPageState extends State<CoursesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Expanded(
-          child: FutureBuilder(
-            future: futureCourses,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Text(
-                  "Erro durante a busca de cursos: ${snapshot.error}",
-                );
-              }
-              if (!snapshot.hasData) {
-                return Text("Nenhum curso encontrado.");
-              }
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Expanded(
+                child: FutureBuilder(
+                  future: futureCourses,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Text(
+                        "Erro durante a busca de cursos: ${snapshot.error}",
+                      );
+                    }
+                    if (!snapshot.hasData) {
+                      return Text("Nenhum curso encontrado.");
+                    }
 
-              return _buildCourses(snapshot.data!);
-            },
-          ),
+                    return _buildCourses(snapshot.data!);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            AppButton(
+              label: "Criar Novo Curso",
+              onTap: () => showCreateModal(context),
+            ),
+          ],
         ),
       ),
     );
@@ -132,109 +144,222 @@ class _CoursesPageState extends State<CoursesPage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text("Editar curso"),
-          content: SizedBox(
-            height: 570,
-            width: 250,
-            child: Column(
-              children: [
-                AppTextField(
-                  icon: Icons.numbers_outlined,
-                  label: "id",
-                  hintText: courseData['id'].toString(),
-                  isPasswordField: false,
-                  enabled: false,
-                ),
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: nameContoller,
-                  icon: Icons.school,
-                  label: "Nome",
-                  hintText: courseData['name'] ?? "",
-                  isPasswordField: false,
-                ),
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: areaContoller,
-                  icon: Icons.numbers_outlined,
-                  label: "Área",
-                  hintText: courseData['area'] ?? "",
-                  isPasswordField: false,
-                ),
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: realeasedContoller,
-                  icon: Icons.date_range,
-                  label: "Data de lançamento",
-                  hintText: courseData['released_date'].toString(),
-                  isPasswordField: false,
-                ),
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: durationContoller,
-                  icon: Icons.timelapse,
-                  label: "Duração semestral",
-                  hintText: courseData['duration_semesters'].toString(),
-                  isPasswordField: false,
-                  keyboardType: TextInputType.number,
-                  onlyNumbers: true,
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return AlertDialog(
+              title: Text("Editar curso"),
+              content: SizedBox(
+                height: 570,
+                width: 250,
+                child: Column(
                   children: [
-                    Text(
-                      "Ativo",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    AppTextField(
+                      icon: Icons.numbers_outlined,
+                      label: "id",
+                      hintText: courseData['id'].toString(),
+                      isPasswordField: false,
+                      enabled: false,
                     ),
-                    Switch(
-                      value: activeOption,
-                      activeThumbColor: Theme.of(context).colorScheme.primary,
-                      onChanged: (bool value) {
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: nameContoller,
+                      icon: Icons.school,
+                      label: "Nome",
+                      hintText: courseData['name'] ?? "",
+                      isPasswordField: false,
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: areaContoller,
+                      icon: Icons.numbers_outlined,
+                      label: "Área",
+                      hintText: courseData['area'] ?? "",
+                      isPasswordField: false,
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: realeasedContoller,
+                      icon: Icons.date_range,
+                      label: "Data de lançamento",
+                      hintText: courseData['released_date'].toString(),
+                      isPasswordField: false,
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: durationContoller,
+                      icon: Icons.timelapse,
+                      label: "Duração semestral",
+                      hintText: courseData['duration_semesters'].toString(),
+                      isPasswordField: false,
+                      keyboardType: TextInputType.number,
+                      onlyNumbers: true,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Ativo",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Switch(
+                          value: activeOption,
+                          activeThumbColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                          onChanged: (value) {
+                            setModalState(() {
+                              activeOption = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    AppButton(
+                      label: "Editar",
+                      onTap: () async {
+                        final updateData = {
+                          "id": courseData['id'],
+                          "name": nameContoller.text,
+                          "area": areaContoller.text,
+                          "released_date": realeasedContoller.text,
+                          "duration_semesters": int.tryParse(
+                            durationContoller.text,
+                          ),
+                          "active": activeOption,
+                        };
+
+                        await coursesService.editCourses(
+                          courseData['id'],
+                          updateData,
+                        );
+
                         setState(() {
-                          activeOption = value;
+                          futureCourses = coursesService.fetchCourses();
                         });
+
+                        clearControllers();
+
+                        if (context.mounted) Navigator.pop(context);
                       },
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                AppButton(
-                  label: "Editar",
-                  onTap: () async {
-                    final updateData = {
-                      "id": courseData['id'],
-                      "name": nameContoller.text,
-                      "area": areaContoller.text,
-                      "released_date": realeasedContoller.text,
-                      "duration_semesters": int.tryParse(
-                        durationContoller.text,
-                      ),
-                      "active": activeOption,
-                    };
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
-                    await coursesService.editCourses(
-                      courseData['id'],
-                      updateData,
-                    );
+  void showCreateModal(BuildContext context) {
+    clearControllers();
 
-                    setState(() {
-                      futureCourses = coursesService.fetchCourses();
-                    });
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return AlertDialog(
+              title: Text("Criar curso"),
+              content: SizedBox(
+                height: 500,
+                width: 250,
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: nameContoller,
+                      icon: Icons.school,
+                      label: "Nome",
+                      hintText: "Banco de dados",
+                      isPasswordField: false,
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: areaContoller,
+                      icon: Icons.numbers_outlined,
+                      label: "Área",
+                      hintText: "Tecnologia",
+                      isPasswordField: false,
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: realeasedContoller,
+                      icon: Icons.date_range,
+                      label: "Data de criação",
+                      hintText: "yyyy-mm-dd",
+                      isPasswordField: false,
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: durationContoller,
+                      icon: Icons.timelapse,
+                      label: "Duração de semestres",
+                      hintText: "1",
+                      isPasswordField: false,
+                      keyboardType: TextInputType.number,
+                      onlyNumbers: true,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Ativo",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Switch(
+                          value: activeOption,
+                          activeThumbColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                          onChanged: (bool value) {
+                            setModalState(() {
+                              activeOption = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    AppButton(
+                      label: "Criar",
+                      onTap: () async {
+                        final CourseModel courseModel = CourseModel(
+                          name: nameContoller.text,
+                          active: activeOption,
+                          area: areaContoller.text,
+                          durationSem: int.parse(durationContoller.text),
+                          realeasedDate: realeasedContoller.text,
+                        );
 
-                    clearControllers();
+                        await coursesService.createCourse(courseModel);
 
-                    if (context.mounted) Navigator.pop(context);
-                  },
+                        setState(() {
+                          futureCourses = coursesService.fetchCourses();
+                        });
+
+                        clearControllers();
+
+                        if (context.mounted) Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );

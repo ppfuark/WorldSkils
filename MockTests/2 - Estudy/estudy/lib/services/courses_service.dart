@@ -73,4 +73,21 @@ class CoursesService {
       throw Exception("Erro ao deletar curso. ${response.statusCode}");
     }
   }
+
+  Future<CourseModel> createCourse(CourseModel course) async {
+    final courseJson = course.toJson();
+    final response = await http.post(
+      Uri.parse('https://json-api-courses-production.up.railway.app/courses/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(courseJson),
+    );
+
+    if (!(response.statusCode == 201)) {
+      throw Exception("Erro ao criar curso. ${response.statusCode}");
+    } else {
+      return CourseModel.fromJson(jsonDecode(response.body));
+    }
+  }
 }

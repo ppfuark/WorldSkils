@@ -1,38 +1,39 @@
 import 'package:estudy/common/app_button.dart';
-import 'package:estudy/common/app_text_field.dart';
 import 'package:estudy/common/app_tile.dart';
 import 'package:estudy/common/models/course_model.dart';
-import 'package:estudy/services/courses_service.dart';
+import 'package:estudy/common/models/disciplines_model.dart';
+import 'package:estudy/services/discipline_service.dart';
 import 'package:flutter/material.dart';
 
-class CoursesPage extends StatefulWidget {
-  const CoursesPage({super.key});
+class DisciplinesPage extends StatefulWidget {
+  const DisciplinesPage({super.key});
 
   @override
-  State<CoursesPage> createState() => _CoursesPageState();
+  State<DisciplinesPage> createState() => _DisciplinesPageState();
 }
 
-class _CoursesPageState extends State<CoursesPage> {
-  late Future<List<CourseModel>> futureCourses;
-  final CoursesService coursesService = CoursesService();
+class _DisciplinesPageState extends State<DisciplinesPage> {
+  late Future<List<DisciplinesModel>> futureDisciplines;
+  final DisciplineService disciplineService = DisciplineService();
 
   bool activeOption = true;
   final TextEditingController nameContoller = TextEditingController();
-  final TextEditingController realeasedContoller = TextEditingController();
-  final TextEditingController durationContoller = TextEditingController();
-  final TextEditingController areaContoller = TextEditingController();
+  late List<CourseModel> referenceCourses; 
+  final TextEditingController workloadContoller = TextEditingController();
+  final TextEditingController semestersContoller = TextEditingController();
+  final TextEditingController mandatoryController = TextEditingController();
 
   @override
   void initState() {
-    futureCourses = coursesService.fetchCourses();
+    futureDisciplines = disciplineService.fetchDisciplines();
     super.initState();
   }
 
   void clearControllers() {
     nameContoller.clear();
-    areaContoller.clear();
-    realeasedContoller.clear();
-    durationContoller.clear();
+    workloadContoller.clear();
+    semestersContoller.clear();
+    mandatoryController.clear();
   }
 
   @override
@@ -41,7 +42,7 @@ class _CoursesPageState extends State<CoursesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cursos"),
+        title: Text("Disciplinas"),
         backgroundColor: Colors.transparent,
         foregroundColor: theme.secondary,
       ),
@@ -53,28 +54,28 @@ class _CoursesPageState extends State<CoursesPage> {
               height: MediaQuery.of(context).size.height * 0.8,
               child: Expanded(
                 child: FutureBuilder(
-                  future: futureCourses,
+                  future: futureDisciplines,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
                       return Text(
-                        "Erro durante a busca de cursos: ${snapshot.error}",
+                        "Erro durante a busca de Disciplinas: ${snapshot.error}",
                       );
                     }
                     if (!snapshot.hasData) {
-                      return Text("Nenhum curso encontrado.");
+                      return Text("Nenhuma Disciplina encontrado.");
                     }
 
-                    return _buildCourses(snapshot.data!);
+                    return _buildDisciplines(snapshot.data!);
                   },
                 ),
               ),
             ),
             SizedBox(height: 20),
             AppButton(
-              label: "Criar Novo Curso",
+              label: "Criar Nova Disciplina",
               onTap: () => showCreateModal(context),
             ),
           ],
@@ -83,11 +84,11 @@ class _CoursesPageState extends State<CoursesPage> {
     );
   }
 
-  Widget _buildCourses(List<CourseModel> courses) {
+  Widget _buildDisciplines(List<DisciplinesModel> Disciplines) {
     return ListView.builder(
-      itemCount: courses.length,
+      itemCount: Disciplines.length,
       itemBuilder: (context, index) {
-        final course = courses[index];
+        final course = Disciplines[index];
 
         return AppTile(
           title: course.name ?? "",
@@ -96,19 +97,19 @@ class _CoursesPageState extends State<CoursesPage> {
           isEditable: true,
           onEdit: () => _showEditModal(course.toJson(), context),
           isDeletable: true,
-          onDelete: () => _showDeleteModal(course.id!),
+          onDelete: () => _showDeleteModal(course.id.toString()),
           block: false,
         );
       },
     );
   }
 
-  void _showDeleteModal(int id) {
+  void _showDeleteModal(String id) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Deseja mesmo excluir o curso? "),
+          title: Text("Deseja mesmo excluir o Disciplina? "),
           actions: [
             TextButton(
               onPressed: () {
@@ -118,12 +119,12 @@ class _CoursesPageState extends State<CoursesPage> {
             ),
             TextButton(
               onPressed: () async {
-                await coursesService.deleteCourse(id);
+                await disciplineService.deleteCourse(id);
                 if (context.mounted) {
                   Navigator.pop(context);
                 }
                 setState(() {
-                  futureCourses = coursesService.fetchCourses();
+                  futureDisciplines = disciplineService.fetchDisciplines();
                 });
               },
               child: Text("Excluir"),
@@ -147,7 +148,7 @@ class _CoursesPageState extends State<CoursesPage> {
         return StatefulBuilder(
           builder: (context, setModalState) {
             return AlertDialog(
-              title: Text("Editar curso"),
+              title: Text("Editar Disciplina"),
               content: SizedBox(
                 height: 570,
                 width: 250,
@@ -234,13 +235,13 @@ class _CoursesPageState extends State<CoursesPage> {
                           "active": activeOption,
                         };
 
-                        await coursesService.editCourses(
+                        await disciplineService.editDisciplines(
                           courseData['id'],
                           updateData,
                         );
 
                         setState(() {
-                          futureCourses = coursesService.fetchCourses();
+                          futureDisciplines = disciplineService.fetchDisciplines();
                         });
 
                         clearControllers();
@@ -267,7 +268,7 @@ class _CoursesPageState extends State<CoursesPage> {
         return StatefulBuilder(
           builder: (context, setModalState) {
             return AlertDialog(
-              title: Text("Criar curso"),
+              title: Text("Criar Disciplina"),
               content: SizedBox(
                 height: 500,
                 width: 250,
@@ -336,18 +337,19 @@ class _CoursesPageState extends State<CoursesPage> {
                     AppButton(
                       label: "Criar",
                       onTap: () async {
-                        final CourseModel courseModel = CourseModel(
-                          name: nameContoller.text,
-                          active: activeOption,
-                          area: areaContoller.text,
-                          durationSem: int.parse(durationContoller.text),
-                          realeasedDate: realeasedContoller.text,
-                        );
+                        final DisciplinesModel DisciplinesModel =
+                            DisciplinesModel(
+                              name: nameContoller.text,
+                              active: activeOption,
+                              area: areaContoller.text,
+                              durationSem: int.parse(durationContoller.text),
+                              realeasedDate: realeasedContoller.text,
+                            );
 
-                        await coursesService.createCourse(courseModel);
+                        await disciplineService.createCourse(DisciplinesModel);
 
                         setState(() {
-                          futureCourses = coursesService.fetchCourses();
+                          futureDisciplines = disciplineService.fetchDisciplines();
                         });
 
                         clearControllers();

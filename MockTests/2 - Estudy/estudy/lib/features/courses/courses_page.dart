@@ -96,14 +96,14 @@ class _CoursesPageState extends State<CoursesPage> {
           isEditable: true,
           onEdit: () => _showEditModal(course.toJson(), context),
           isDeletable: true,
-          onDelete: () => _showDeleteModal(course.id.toString()),
+          onDelete: () => _showDeleteModal(course.id!),
           block: false,
         );
       },
     );
   }
 
-  void _showDeleteModal(String id) {
+  void _showDeleteModal(int id) {
     showDialog(
       context: context,
       builder: (context) {

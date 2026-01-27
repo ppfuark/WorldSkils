@@ -59,7 +59,7 @@ class CoursesService {
     }
   }
 
-  Future<void> deleteCourse(String id) async {
+  Future<void> deleteCourse(int id) async {
     final http.Response response = await http.delete(
       Uri.parse(
         'https://json-api-courses-production.up.railway.app/courses/$id',

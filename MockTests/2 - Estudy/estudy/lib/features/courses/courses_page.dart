@@ -52,7 +52,7 @@ class _CoursesPageState extends State<CoursesPage> {
             future: futureCourses,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasError) {
                 return Text(
@@ -84,7 +84,39 @@ class _CoursesPageState extends State<CoursesPage> {
           isEditable: true,
           onEdit: () => _showEditModal(course.toJson(), context),
           isDeletable: true,
+          onDelete: () => _showDeleteModal(course.id.toString()),
           block: false,
+        );
+      },
+    );
+  }
+
+  void _showDeleteModal(String id) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Deseja mesmo excluir o curso? "),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancelar"),
+            ),
+            TextButton(
+              onPressed: () async {
+                await coursesService.deleteCourse(id);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+                setState(() {
+                  futureCourses = coursesService.fetchCourses();
+                });
+              },
+              child: Text("Excluir"),
+            ),
+          ],
         );
       },
     );

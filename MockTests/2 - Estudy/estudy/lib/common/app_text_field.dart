@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTextField extends StatelessWidget {
   final IconData icon;
@@ -7,6 +8,8 @@ class AppTextField extends StatelessWidget {
   final bool isPasswordField;
   final TextEditingController? controller;
   final bool? enabled;
+  final TextInputType? keyboardType;
+  final bool onlyNumbers;
 
   const AppTextField({
     super.key,
@@ -14,8 +17,10 @@ class AppTextField extends StatelessWidget {
     required this.label,
     required this.hintText,
     required this.isPasswordField,
+    this.keyboardType,
     this.controller,
-    this.enabled
+    this.enabled,
+    this.onlyNumbers = false,
   });
 
   @override
@@ -35,6 +40,10 @@ class AppTextField extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         TextField(
+          keyboardType: keyboardType,
+          inputFormatters: onlyNumbers
+              ? [FilteringTextInputFormatter.digitsOnly]
+              : null,
           enabled: enabled,
           controller: controller,
           obscureText: isPasswordField,

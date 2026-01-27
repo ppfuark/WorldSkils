@@ -162,7 +162,7 @@ class _UsersPageState extends State<UsersPage> {
                 await authService.updateUser(userData["uid"], {
                   "user_level": userData["user_level"],
                 });
-                if (mounted) {
+                if (context.mounted) {
                   Navigator.pop(context);
                 }
               },

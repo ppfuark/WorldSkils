@@ -10,11 +10,9 @@ class CoursesService {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> decoded = json.decode(response.body);
+      final List body = json.decode(response.body);
 
-      final List<dynamic> coursesList = decoded[0];
-
-      return coursesList.map((e) => CourseModel.fromJson(e)).toList();
+      return body.map((course) => CourseModel.fromJson(course)).toList();
     } else {
       throw Exception('Erro na busca de cursos.');
     }
@@ -26,10 +24,9 @@ class CoursesService {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> decoded = json.decode(response.body);
-      final List<dynamic> courseList = decoded[0];
+      final List body = json.decode(response.body);
 
-      final courseJson = courseList.firstWhere(
+      final courseJson = body.firstWhere(
         (course) => course['id'] == id,
         orElse: () => null,
       );
@@ -42,7 +39,7 @@ class CoursesService {
     }
   }
 
-  Future<CourseModel> editCourses(int id, CourseModel course) async {
+  Future<CourseModel> editCourses(int id, Map<String, dynamic> data) async {
     final response = await http.put(
       Uri.parse(
         'https://json-api-courses-production.up.railway.app/courses/${id.toString()}',
@@ -50,13 +47,15 @@ class CoursesService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(course.toJson()),
+      body: jsonEncode(data),
     );
 
     if (response.statusCode == 200) {
       return CourseModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception("Erro ao atualizar curso.");
+      throw Exception(
+        "Erro ao atualizar curso. ${response.statusCode.toString()}",
+      );
     }
   }
 }

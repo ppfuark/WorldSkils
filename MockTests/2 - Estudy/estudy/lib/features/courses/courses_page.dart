@@ -1,3 +1,4 @@
+import 'package:estudy/common/app_button.dart';
 import 'package:estudy/common/app_text_field.dart';
 import 'package:estudy/common/app_tile.dart';
 import 'package:estudy/common/models/course_model.dart';
@@ -27,7 +28,12 @@ class _CoursesPageState extends State<CoursesPage> {
     super.initState();
   }
 
-  void coursesEdit(CourseModel course) {}
+  void clearControllers() {
+    nameContoller.clear();
+    areaContoller.clear();
+    realeasedContoller.clear();
+    durationContoller.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,13 +91,19 @@ class _CoursesPageState extends State<CoursesPage> {
   }
 
   void _showEditModal(Map<String, dynamic> courseData, BuildContext context) {
+    nameContoller.text = courseData['name'] ?? '';
+    areaContoller.text = courseData['area'] ?? '';
+    realeasedContoller.text = courseData['released_date'] ?? '';
+    durationContoller.text = courseData['duration_semesters']?.toString() ?? '';
+    activeOption = courseData['active'] ?? true;
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text("Editar curso"),
           content: SizedBox(
-            height: 500,
+            height: 570,
             width: 250,
             child: Column(
               children: [
@@ -105,7 +117,7 @@ class _CoursesPageState extends State<CoursesPage> {
                 SizedBox(height: 10),
                 AppTextField(
                   controller: nameContoller,
-                  icon: Icons.numbers_outlined,
+                  icon: Icons.school,
                   label: "Nome",
                   hintText: courseData['name'] ?? "",
                   isPasswordField: false,
@@ -121,18 +133,20 @@ class _CoursesPageState extends State<CoursesPage> {
                 SizedBox(height: 10),
                 AppTextField(
                   controller: realeasedContoller,
-                  icon: Icons.numbers_outlined,
+                  icon: Icons.date_range,
                   label: "Data de lançamento",
-                  hintText: courseData['released_date'].toString() ?? "",
+                  hintText: courseData['released_date'].toString(),
                   isPasswordField: false,
                 ),
                 SizedBox(height: 10),
                 AppTextField(
                   controller: durationContoller,
-                  icon: Icons.numbers_outlined,
+                  icon: Icons.timelapse,
                   label: "Duração semestral",
                   hintText: courseData['duration_semesters'].toString(),
                   isPasswordField: false,
+                  keyboardType: TextInputType.number,
+                  onlyNumbers: true,
                 ),
                 SizedBox(height: 10),
                 Row(
@@ -156,6 +170,35 @@ class _CoursesPageState extends State<CoursesPage> {
                       },
                     ),
                   ],
+                ),
+                SizedBox(height: 10),
+                AppButton(
+                  label: "Editar",
+                  onTap: () async {
+                    final updateData = {
+                      "id": courseData['id'],
+                      "name": nameContoller.text,
+                      "area": areaContoller.text,
+                      "released_date": realeasedContoller.text,
+                      "duration_semesters": int.tryParse(
+                        durationContoller.text,
+                      ),
+                      "active": activeOption,
+                    };
+
+                    await coursesService.editCourses(
+                      courseData['id'],
+                      updateData,
+                    );
+
+                    setState(() {
+                      futureCourses = coursesService.fetchCourses();
+                    });
+
+                    clearControllers();
+
+                    if (context.mounted) Navigator.pop(context);
+                  },
                 ),
               ],
             ),

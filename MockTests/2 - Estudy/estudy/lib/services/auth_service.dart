@@ -97,6 +97,14 @@ class AuthService {
     return List<int>.from(data["courses_references"] ?? []);
   }
 
+  Future<List<int>> getStudentCoursesId(String uid) async {
+    final doc = await _firestore.collection("Users").doc(uid).get();
+    final data = doc.data();
+    if (data == null) return [];
+
+    return List<int>.from(data["courses_enrolled"] ?? []);
+  }
+
   Future<void> blockUser(String uid) async {
     await _firestore.collection("Users").doc(uid).update({'blocked': true});
   }

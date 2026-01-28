@@ -1,4 +1,5 @@
 import 'package:estudy/features/auth/login_page.dart';
+import 'package:estudy/features/home/student_home.dart';
 import 'package:estudy/features/home/teacher_home.dart';
 import 'package:estudy/features/home/home_page.dart';
 import 'package:estudy/services/auth_service.dart';
@@ -46,7 +47,7 @@ class AuthGate extends StatelessWidget {
     } else if (await authService.isTeacher(uid)) {
       return TeacherHome();
     } else {
-      return HomePage();
+      return StudentHome();
     }
   }
 }

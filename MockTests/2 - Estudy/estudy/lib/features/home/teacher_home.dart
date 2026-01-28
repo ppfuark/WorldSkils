@@ -1,5 +1,6 @@
 import 'package:estudy/common/app_tile.dart';
 import 'package:estudy/common/models/course_model.dart';
+import 'package:estudy/features/details/course_datails_page.dart';
 import 'package:estudy/services/auth_service.dart';
 import 'package:estudy/services/courses_service.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,15 @@ class _TeacherHomeState extends State<TeacherHome> {
                         final course = courses[index];
 
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CourseDatailsPage(courseModel: course),
+                              ),
+                            );
+                          },
                           child: Container(
                             margin: EdgeInsets.only(bottom: 4),
                             child: AppTile(

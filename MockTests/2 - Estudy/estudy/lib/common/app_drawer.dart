@@ -1,6 +1,6 @@
 import 'package:estudy/features/admin/users_page.dart';
-import 'package:estudy/features/courses/courses_page.dart';
-import 'package:estudy/features/disciplines/disciplines_page.dart';
+import 'package:estudy/features/admin/courses_page.dart';
+import 'package:estudy/features/admin/disciplines_page.dart';
 import 'package:estudy/services/auth_service.dart';
 import 'package:flutter/material.dart';
 

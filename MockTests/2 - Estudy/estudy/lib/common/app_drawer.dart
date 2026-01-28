@@ -30,47 +30,56 @@ class AppDrawer extends StatelessWidget {
                 return const SizedBox.shrink();
               }
 
-              return ListTile(
-                title: Text(
-                  "U S U Á R I O S",
-                  style: TextStyle(color: theme.primary),
-                ),
-                leading: Icon(
-                  Icons.admin_panel_settings_outlined,
-                  color: theme.primary,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UsersPage()),
-                  );
-                },
-              );
-            },
-          ),
-          ListTile(
-            title: Text("C U R S O S", style: TextStyle(color: theme.primary)),
-            leading: Icon(Icons.school, color: theme.primary),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CoursesPage()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              "D I C I P L I N A S",
-              style: TextStyle(color: theme.primary),
-            ),
-            leading: Icon(Icons.book, color: theme.primary),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DisciplinesPage()),
+              return Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      "U S U Á R I O S",
+                      style: TextStyle(color: theme.primary),
+                    ),
+                    leading: Icon(
+                      Icons.admin_panel_settings_outlined,
+                      color: theme.primary,
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UsersPage()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Text(
+                      "C U R S O S",
+                      style: TextStyle(color: theme.primary),
+                    ),
+                    leading: Icon(Icons.school, color: theme.primary),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CoursesPage()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Text(
+                      "D I C I P L I N A S",
+                      style: TextStyle(color: theme.primary),
+                    ),
+                    leading: Icon(Icons.book, color: theme.primary),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DisciplinesPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               );
             },
           ),

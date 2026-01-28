@@ -104,7 +104,7 @@ class _UsersPageState extends State<UsersPage> {
   }
 
   void _showEditForm(Map<String, dynamic> userData, BuildContext context) {
-    List<String> userLevels = <String>["Student", "Teacher", "Admin"];
+    List<String> userLevels = <String>["Estudante", "Professor", "Admin"];
 
     showDialog(
       context: context,

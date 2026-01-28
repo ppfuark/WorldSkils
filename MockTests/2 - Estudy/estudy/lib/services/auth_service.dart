@@ -83,6 +83,20 @@ class AuthService {
     return data?["user_level"] == "Admin";
   }
 
+  Future<bool> isTeacher(String uid) async {
+    final doc = await _firestore.collection("Users").doc(uid).get();
+    final data = doc.data();
+    return data?["user_level"] == "Professor";
+  }
+
+  Future<List<int>> getTeacherCourses(String uid) async {
+    final doc = await _firestore.collection("Users").doc(uid).get();
+    final data = doc.data();
+    if (data == null) return [];
+
+    return List<int>.from(data["courses_references"] ?? []);
+  }
+
   Future<void> blockUser(String uid) async {
     await _firestore.collection("Users").doc(uid).update({'blocked': true});
   }

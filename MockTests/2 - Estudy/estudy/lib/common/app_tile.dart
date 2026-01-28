@@ -45,7 +45,9 @@ class AppTile extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: theme.tertiary,
+                  color: (isDeletable || isEditable)
+                      ? theme.tertiary
+                      : theme.primary,
                   borderRadius: BorderRadius.circular(999),
                 ),
                 padding: EdgeInsets.all(6),
@@ -56,7 +58,7 @@ class AppTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 180,
+                    width: (isDeletable || isEditable) ? 180 : 250,
                     child: Text(
                       overflow: TextOverflow.ellipsis,
                       title,

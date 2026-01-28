@@ -89,7 +89,7 @@ class AuthService {
     return data?["user_level"] == "Professor";
   }
 
-  Future<List<int>> getTeacherCourses(String uid) async {
+  Future<List<int>> getTeacherCoursesId(String uid) async {
     final doc = await _firestore.collection("Users").doc(uid).get();
     final data = doc.data();
     if (data == null) return [];

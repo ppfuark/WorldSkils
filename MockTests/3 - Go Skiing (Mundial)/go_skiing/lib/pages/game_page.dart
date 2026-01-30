@@ -14,7 +14,7 @@ class _GamePageState extends State<GamePage> {
   bool isPaused = false;
   int coinCount = 10;
   final stopwatch = Stopwatch();
-  Timer? timer;
+  Timer? secondsTimer;
   int seconds = 0;
 
   bool skiJumped = false;
@@ -24,7 +24,7 @@ class _GamePageState extends State<GamePage> {
     super.initState();
     stopwatch.start();
 
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
+    secondsTimer = Timer.periodic(Duration(seconds: 1), (_) {
       if (!isPaused) {
         setState(() {
           seconds = stopwatch.elapsed.inSeconds;
@@ -35,7 +35,7 @@ class _GamePageState extends State<GamePage> {
 
   @override
   void dispose() {
-    timer?.cancel();
+    secondsTimer?.cancel();
     stopwatch.stop();
     super.dispose();
   }
@@ -173,7 +173,7 @@ class _GamePageState extends State<GamePage> {
                           ),
 
                           Positioned(
-                            bottom: skiJumped ? 240 : 140,
+                            bottom: skiJumped ? 200 : 110,
 
                             left: MediaQuery.of(context).size.width * 0.4,
                             child: RotationTransition(
@@ -203,19 +203,13 @@ class SlopeClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final path = Path();
 
-    // top-left
-    path.lineTo(size.height * 0.4, 0);
-
-    // diagonal slope
-    path.lineTo(size.width, size.height * 0.2);
-
-    // bottom-right
-    path.lineTo(size.width, size.height);
-
-    // bottom-left
-    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height * 0.5); // top flat
+    path.lineTo(size.width, size.height * 0.5); // diagonal slope
+    path.lineTo(size.width, size.height); // bottom-right
+    path.lineTo(0, size.height); // bottom-left
 
     path.close();
+
     return path;
   }
 

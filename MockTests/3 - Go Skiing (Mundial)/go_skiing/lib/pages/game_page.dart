@@ -17,6 +17,7 @@ class _GamePageState extends State<GamePage> {
   Timer? _timer;
 
   String playerName = name;
+  bool isPlayerJumping = false;
 
   @override
   void initState() {
@@ -40,6 +41,14 @@ class _GamePageState extends State<GamePage> {
     super.dispose();
   }
 
+  void jump() {
+    setState(() async {
+      isPlayerJumping = true;
+      await Future.delayed(Duration(seconds: 1));
+      isPlayerJumping = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,10 +62,11 @@ class _GamePageState extends State<GamePage> {
           ),
         ),
         child: SafeArea(
+          bottom: false,
           child: Stack(
             children: [
               Positioned(
-                top: 20,
+                top: 0,
                 width: size.width,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -141,14 +151,49 @@ class _GamePageState extends State<GamePage> {
 
               Positioned(
                 bottom: 0,
-                left: 0,
-                right: 0,
+                width: size.width,
                 height: size.height * 0.5,
                 child: GestureDetector(
-                  onTap: () {},
-                  child: Image.asset(
-                    "assets/images/trees.png",
-                    fit: BoxFit.cover,
+                  onTap: () {
+                    jump();
+                  },
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: size.height * 0.5,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Image.asset(
+                            "assets/images/trees.png",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        width: 100,
+                        bottom: isPlayerJumping
+                            ? size.height * 0.3
+                            : size.height * 0.2,
+                        child: Image.asset('assets/images/skiing_person.png'),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: size.height * 0.2,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: size.width,
+                            height: size.height * 0.25,
+                            decoration: BoxDecoration(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:go_skiing/global/player.dart';
@@ -14,19 +15,33 @@ class _GamePageState extends State<GamePage> {
   bool isPaused = false;
   int coinCount = 10;
   int seconds = 0;
-  Timer? _timer;
+  Timer? secondsTimer;
+  Timer? gameTimer;
+  Timer? gameVelocity;
+
+  int gameVelocityCount = 10;
 
   String playerName = name;
   bool isPlayerJumping = false;
 
+  bool obstacleInScreen = false;
+  double obstacleLeft = 1000;
+
+  bool coinInScreen = false;
+  double coinLeft = 1000;
+
+  bool gameOver = false;
+
   @override
   void initState() {
     super.initState();
+    nextObject();
     _startTimer();
+    startGameLoop();
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    secondsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!isPaused) {
         setState(() {
           seconds++;
@@ -35,17 +50,94 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
+  void startGameLoop() {
+    gameTimer = Timer.periodic(Duration(milliseconds: 40), (_) {
+      if (!isPaused) {
+        gameUpdate();
+      }
+    });
+
+    gameVelocity = Timer.periodic(Duration(seconds: 10), (_) {
+      if (!isPaused) {
+        gameVelocityCount == 30 ? gameVelocityCount += 2 : gameVelocity;
+      }
+    });
+  }
+
+  void gameUpdate() {
+    setState(() {
+      if (obstacleInScreen) {
+        obstacleLeft -= gameVelocityCount;
+        if (obstacleLeft < -80) {
+          obstacleInScreen = false;
+          obstacleLeft = 1000;
+          nextObject();
+        }
+        checkCollison();
+      }
+
+      if (coinInScreen) {
+        coinLeft -= gameVelocityCount;
+        if (coinLeft < -80) {
+          coinInScreen = false;
+          coinLeft = 1000;
+          nextObject();
+        }
+      }
+      checkCoinCollison();
+    });
+  }
+
+  void nextObject() {
+    if (!isPaused) {
+      bool isCoin = Random().nextBool();
+
+      if (isCoin) {
+        coinInScreen = true;
+        obstacleInScreen = false;
+      } else {
+        coinInScreen = false;
+        obstacleInScreen = true;
+      }
+    }
+  }
+
+  void checkCollison() {
+    if (obstacleLeft < 100 && obstacleLeft > 0) {
+      if (!isPlayerJumping) {
+        gameOver = true;
+        isPaused = true;
+      }
+    }
+  }
+
+  void checkCoinCollison() {
+    if (coinLeft < 100 && coinLeft > 0) {
+      if (!isPlayerJumping) {
+        coinInScreen = false;
+        coinLeft = 1000;
+        coinCount += 1;
+        nextObject();
+      }
+    }
+  }
+
   @override
   void dispose() {
-    _timer?.cancel();
+    secondsTimer?.cancel();
+    gameTimer?.cancel();
     super.dispose();
   }
 
   void jump() {
-    setState(() async {
-      isPlayerJumping = true;
-      await Future.delayed(Duration(seconds: 1));
-      isPlayerJumping = false;
+    if (isPlayerJumping) return;
+
+    setState(() => isPlayerJumping = true);
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() => isPlayerJumping = false);
+      }
     });
   }
 
@@ -172,23 +264,34 @@ class _GamePageState extends State<GamePage> {
                           ),
                         ),
                       ),
-                      Positioned(
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeOut,
                         width: 100,
-                        bottom: isPlayerJumping
-                            ? size.height * 0.3
-                            : size.height * 0.2,
+                        bottom: isPlayerJumping ? 300 : 200,
                         child: Image.asset('assets/images/skiing_person.png'),
+                      ),
+
+                      Positioned(
+                        bottom: 200,
+                        left: coinInScreen ? coinLeft : obstacleLeft,
+                        child: coinInScreen
+                            ? Image.asset(height: 40, 'assets/images/coin.png')
+                            : Image.asset(
+                                height: 40,
+                                'assets/images/obstacle.png',
+                              ),
                       ),
                       Positioned(
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        height: size.height * 0.2,
+                        height: 200,
                         child: GestureDetector(
                           onTap: () {},
                           child: Container(
                             width: size.width,
-                            height: size.height * 0.25,
+                            height: 200,
                             decoration: BoxDecoration(color: Colors.white),
                           ),
                         ),

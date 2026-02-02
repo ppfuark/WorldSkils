@@ -108,7 +108,7 @@ class _GamePageState extends State<GamePage> {
     final size = MediaQuery.of(context).size;
     coinLeft = size.width + 50;
     // A moeda pode aparecer um pouco mais alta ou baixa (aleatório)
-    coinHeight = 60;
+    coinHeight = 70 + _random.nextInt(40).toDouble();
     coinVisible = true;
     obstacleInScreen = false;
   }

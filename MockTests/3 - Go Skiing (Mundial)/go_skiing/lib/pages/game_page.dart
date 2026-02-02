@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:go_skiing/global/models/rank_model.dart';
+import 'package:go_skiing/services/rank_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,8 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  final RankService rankService = RankService();
+
   late final AudioPlayer bgmPlayer;
   late final AudioPlayer sfxPlayer;
 
@@ -33,8 +37,6 @@ class _GamePageState extends State<GamePage> {
 
   bool coinInScreen = false;
   double coinLeft = 1000;
-
-  bool gameOver = false;
 
   @override
   void initState() {
@@ -58,7 +60,7 @@ class _GamePageState extends State<GamePage> {
 
   void jump() async {
     if (isPlayerJumping) return;
-    
+
     await sfxPlayer.setAsset('assets/audio/jump.wav');
     sfxPlayer.play();
 
@@ -136,7 +138,7 @@ class _GamePageState extends State<GamePage> {
   void checkCollison() {
     if (obstacleLeft < 100 && obstacleLeft > 0) {
       if (!isPlayerJumping) {
-        gameOver = true;
+        gameOver();
         isPaused = true;
       }
     }
@@ -151,6 +153,28 @@ class _GamePageState extends State<GamePage> {
         nextObject();
       }
     }
+  }
+
+  void gameOver() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("You lose!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: Text("Ok"),
+            ),
+          ],
+        );
+      },
+    );
+    await rankService.addRank(
+      RankModel(coin: coinCount, playerName: playerName, duration: seconds),
+    );
   }
 
   @override

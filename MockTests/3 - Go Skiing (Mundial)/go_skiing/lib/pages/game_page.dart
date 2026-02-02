@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_skiing/global/player.dart';
@@ -12,6 +13,9 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  late final AudioPlayer bgmPlayer;
+  late final AudioPlayer sfxPlayer;
+
   bool isPaused = false;
   int coinCount = 10;
   int seconds = 0;
@@ -35,9 +39,36 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
+
+    bgmPlayer = AudioPlayer();
+    sfxPlayer = AudioPlayer();
+
+    _initBgm();
+
     nextObject();
     _startTimer();
     startGameLoop();
+  }
+
+  Future<void> _initBgm() async {
+    await bgmPlayer.setAsset('assets/audio/bgm.mp3');
+    bgmPlayer.setLoopMode(LoopMode.one);
+    bgmPlayer.play();
+  }
+
+  void jump() async {
+    if (isPlayerJumping) return;
+    
+    await sfxPlayer.setAsset('assets/audio/jump.wav');
+    sfxPlayer.play();
+
+    setState(() => isPlayerJumping = true);
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() => isPlayerJumping = false);
+      }
+    });
   }
 
   void _startTimer() {
@@ -124,21 +155,12 @@ class _GamePageState extends State<GamePage> {
 
   @override
   void dispose() {
+    bgmPlayer.dispose();
+    sfxPlayer.dispose();
+
     secondsTimer?.cancel();
     gameTimer?.cancel();
     super.dispose();
-  }
-
-  void jump() {
-    if (isPlayerJumping) return;
-
-    setState(() => isPlayerJumping = true);
-
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) {
-        setState(() => isPlayerJumping = false);
-      }
-    });
   }
 
   @override

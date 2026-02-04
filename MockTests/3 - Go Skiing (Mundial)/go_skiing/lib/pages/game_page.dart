@@ -315,7 +315,13 @@ class _GamePageState extends State<GamePage> {
                         curve: Curves.easeOut,
                         width: 100,
                         bottom: isPlayerJumping ? 300 : 200,
-                        child: Image.asset('assets/images/skiing_person.png'),
+                        child: ColorFiltered(
+          colorFilter: jacketColor,
+          child: Image.asset(
+            'assets/images/skiing_person.png',
+            width: 220,
+          ),
+        ),
                       ),
 
                       Positioned(

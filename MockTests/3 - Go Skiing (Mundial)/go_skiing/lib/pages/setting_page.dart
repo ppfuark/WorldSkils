@@ -10,6 +10,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   double hue = 0;
+  double hue2 = 0;
 
   Color get _jacketColor => HSVColor.fromAHSV(1, hue, 1, 1).toColor();
 
@@ -66,6 +67,15 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                 ),
+              ),
+
+              SizedBox(height: 60),
+
+              Slider(
+                value: hue2,
+                onChanged: ((newHue) => setState(() {
+                  hue2 = newHue;
+                })),
               ),
             ],
           ),

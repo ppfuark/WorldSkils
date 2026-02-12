@@ -124,6 +124,7 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Cadastro de Animais", style: AppStyle.black)),
       body: SafeArea(
         top: true,
         child: Center(

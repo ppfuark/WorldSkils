@@ -72,14 +72,14 @@ class _LoginPageState extends State<LoginPage> {
                         fillColor: theme.secondary,
                         suffixIcon: Icon(
                           Icons.email_outlined,
-                          color: theme.secondary,
+                          color: theme.primary,
                         ),
                         hintText: "Email",
                         hintStyle: AppStyle.regular.copyWith(
                           color: Colors.grey.shade500,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: theme.secondary),
+                          borderSide: BorderSide(color: theme.primary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: theme.secondary),
+                          borderSide: BorderSide(color: theme.primary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
@@ -114,14 +114,14 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                           icon: iconPass,
-                          color: theme.secondary,
+                          color: theme.primary,
                         ),
                         hintText: "Password",
                         hintStyle: AppStyle.regular.copyWith(
                           color: Colors.grey.shade500,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: theme.secondary),
+                          borderSide: BorderSide(color: theme.primary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: theme.secondary),
+                          borderSide: BorderSide(color: theme.primary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
@@ -147,7 +147,10 @@ class _LoginPageState extends State<LoginPage> {
                           color: theme.primary,
                         ),
                         child: Center(
-                          child: Text('Logar', style: AppStyle.bold.copyWith(color: Colors.white)),
+                          child: Text(
+                            'Logar',
+                            style: AppStyle.bold.copyWith(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),

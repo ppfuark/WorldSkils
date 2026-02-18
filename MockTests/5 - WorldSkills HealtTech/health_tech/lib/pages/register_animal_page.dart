@@ -123,8 +123,23 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      appBar: AppBar(title: Text("Cadastro de Animais", style: AppStyle.black)),
+      appBar: AppBar(
+        title: Text("Cadastro de Animais", style: AppStyle.black),
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              ThemeProvider.toggleTheme();
+            },
+            icon: ThemeProvider.themeNotifier.value == darkMode
+                ? Icon(Icons.dark_mode)
+                : Icon(Icons.light_mode),
+          ),
+        ],
+      ),
       body: SafeArea(
         top: true,
         child: Center(
@@ -135,7 +150,7 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      border: BoxBorder.all(color: Color(0xFF00A3E0)),
+                      border: BoxBorder.all(color: theme.secondary),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
@@ -179,28 +194,28 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       TextField(
                         controller: nameController,
                         decoration: InputDecoration(
-                          fillColor: Color(0xFF00A3E0),
+                          fillColor: theme.secondary,
                           suffixIcon: Icon(
                             Icons.pets_outlined,
-                            color: Color(0xFF00A3E0),
+                            color: theme.primary,
                           ),
                           hintText: "Nome",
                           hintStyle: AppStyle.regular.copyWith(
                             color: Colors.grey.shade500,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0xFF00A3E0),
+                              color: theme.secondary,
                               width: 3.0,
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
@@ -218,28 +233,28 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       TextField(
                         controller: loteController,
                         decoration: InputDecoration(
-                          fillColor: Color(0xFF00A3E0),
+                          fillColor: theme.secondary,
                           suffixIcon: Icon(
                             Icons.format_list_numbered_outlined,
-                            color: Color(0xFF00A3E0),
+                            color: theme.primary,
                           ),
                           hintText: "X",
                           hintStyle: AppStyle.regular.copyWith(
                             color: Colors.grey.shade500,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0xFF00A3E0),
+                              color: theme.secondary,
                               width: 3.0,
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
@@ -257,28 +272,28 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       TextField(
                         controller: kgController,
                         decoration: InputDecoration(
-                          fillColor: Color(0xFF00A3E0),
+                          fillColor: theme.secondary,
                           suffixIcon: Icon(
                             Icons.fitness_center,
-                            color: Color(0xFF00A3E0),
+                            color: theme.primary,
                           ),
                           hintText: "X.x",
                           hintStyle: AppStyle.regular.copyWith(
                             color: Colors.grey.shade500,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0xFF00A3E0),
+                              color: theme.secondary,
                               width: 3.0,
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
@@ -296,28 +311,28 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       TextField(
                         controller: bornController,
                         decoration: InputDecoration(
-                          fillColor: Color(0xFF00A3E0),
+                          fillColor: theme.secondary,
                           suffixIcon: Icon(
                             Icons.date_range_outlined,
-                            color: Color(0xFF00A3E0),
+                            color: theme.primary,
                           ),
                           hintText: "2021-08-20",
                           hintStyle: AppStyle.regular.copyWith(
                             color: Colors.grey.shade500,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0xFF00A3E0),
+                              color: theme.secondary,
                               width: 3.0,
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
@@ -341,15 +356,12 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                         },
                         child: Row(
                           children: [
-                            Radio(
-                              value: 'Male',
-                              activeColor: Color(0xFF00A3E0),
-                            ),
+                            Radio(value: 'Male', activeColor: theme.secondary),
                             Text("Male"),
                             SizedBox(width: 20),
                             Radio(
                               value: 'Female',
-                              activeColor: Color(0xFF00A3E0),
+                              activeColor: theme.secondary,
                             ),
                             Text("Female"),
                           ],
@@ -367,7 +379,7 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       ),
                       Switch(
                         value: castrado,
-                        activeThumbColor: Color(0xFF00A3E0),
+                        activeThumbColor: theme.secondary,
                         onChanged: ((value) {
                           setState(() {
                             castrado = value;
@@ -386,7 +398,7 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       ),
                       Switch(
                         value: vacina,
-                        activeThumbColor: Color(0xFF00A3E0),
+                        activeThumbColor: theme.secondary,
                         onChanged: ((value) {
                           setState(() {
                             vacina = value;
@@ -406,28 +418,25 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       TextField(
                         controller: percentContoller,
                         decoration: InputDecoration(
-                          fillColor: Color(0xFF00A3E0),
-                          suffixIcon: Icon(
-                            Icons.percent,
-                            color: Color(0xFF00A3E0),
-                          ),
+                          fillColor: theme.secondary,
+                          suffixIcon: Icon(Icons.percent, color: theme.primary),
                           hintText: "60",
                           hintStyle: AppStyle.regular.copyWith(
                             color: Colors.grey.shade500,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0xFF00A3E0),
+                              color: theme.secondary,
                               width: 3.0,
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
@@ -445,28 +454,28 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       TextField(
                         controller: locController,
                         decoration: InputDecoration(
-                          fillColor: Color(0xFF00A3E0),
+                          fillColor: theme.secondary,
                           suffixIcon: Icon(
                             Icons.location_on_outlined,
-                            color: Color(0xFF00A3E0),
+                            color: theme.primary,
                           ),
                           hintText: "Misto",
                           hintStyle: AppStyle.regular.copyWith(
                             color: Colors.grey.shade500,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0xFF00A3E0),
+                              color: theme.secondary,
                               width: 3.0,
                             ),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                            borderSide: BorderSide(color: theme.primary),
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
@@ -482,7 +491,7 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       return CheckboxListTile(
                         title: Text(key.toUpperCase()),
                         value: exercices[key],
-                        activeColor: const Color(0xFF00A3E0),
+                        activeColor: theme.secondary,
                         onChanged: (bool? value) {
                           setState(() {
                             exercices[key] = value!;
@@ -498,7 +507,7 @@ class _RegisterAnimalPageState extends State<RegisterAnimalPage> {
                       height: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(999),
-                        color: Color(0xFF4169E1),
+                        color: theme.primary,
                       ),
                       child: Center(
                         child: Text(

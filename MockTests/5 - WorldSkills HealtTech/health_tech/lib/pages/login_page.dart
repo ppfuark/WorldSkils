@@ -43,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: Text("Cadastro de Animais")),
-      backgroundColor: Colors.white,
+      backgroundColor: theme.surface,
       body: SafeArea(
         top: true,
         child: Center(
@@ -69,28 +69,28 @@ class _LoginPageState extends State<LoginPage> {
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                        fillColor: Color(0xFF00A3E0),
+                        fillColor: theme.secondary,
                         suffixIcon: Icon(
                           Icons.email_outlined,
-                          color: Color(0xFF00A3E0),
+                          color: theme.secondary,
                         ),
                         hintText: "Email",
                         hintStyle: AppStyle.regular.copyWith(
                           color: Colors.grey.shade500,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                          borderSide: BorderSide(color: theme.secondary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFF00A3E0),
+                            color: theme.secondary,
                             width: 3.0,
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                          borderSide: BorderSide(color: theme.secondary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: !showPass,
                       controller: passwordController,
                       decoration: InputDecoration(
-                        fillColor: Color(0xFF00A3E0),
+                        fillColor: theme.secondary,
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -114,25 +114,25 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                           icon: iconPass,
-                          color: Color(0xFF00A3E0),
+                          color: theme.secondary,
                         ),
                         hintText: "Password",
                         hintStyle: AppStyle.regular.copyWith(
                           color: Colors.grey.shade500,
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                          borderSide: BorderSide(color: theme.secondary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFF00A3E0),
+                            color: theme.secondary,
                             width: 3.0,
                           ),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF00A3E0)),
+                          borderSide: BorderSide(color: theme.secondary),
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
@@ -144,13 +144,10 @@ class _LoginPageState extends State<LoginPage> {
                         height: 60,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(999),
-                          color: Color(0xFF4169E1),
+                          color: theme.primary,
                         ),
                         child: Center(
-                          child: Text(
-                            'Logar',
-                            style: AppStyle.bold.copyWith(color: Colors.white),
-                          ),
+                          child: Text('Logar', style: AppStyle.bold.copyWith(color: Colors.white)),
                         ),
                       ),
                     ),
@@ -167,7 +164,10 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.grey.shade200,
                     ),
                     child: Center(
-                      child: Text('Cadastre seu animal', style: AppStyle.bold),
+                      child: Text(
+                        'Cadastre seu animal',
+                        style: AppStyle.bold.copyWith(color: theme.primary),
+                      ),
                     ),
                   ),
                 ),

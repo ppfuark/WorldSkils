@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:health_tech/app_style.dart';
+import 'package:health_tech/pages/animal_detail_page.dart';
 import 'package:http/http.dart' as http;
 
 class ManagementAnimalPage extends StatefulWidget {
@@ -31,8 +32,23 @@ class _ManagementAnimalPageState extends State<ManagementAnimalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: Text("Manejo de Animais", style: AppStyle.black)),
+      backgroundColor: theme.surface,
+      appBar: AppBar(
+        title: Text("Manejo de Animais", style: AppStyle.black),
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              ThemeProvider.toggleTheme();
+            },
+            icon: ThemeProvider.themeNotifier.value == darkMode
+                ? Icon(Icons.dark_mode)
+                : Icon(Icons.light_mode),
+          ),
+        ],
+      ),
       body: SafeArea(
         top: true,
         child: Center(
@@ -49,13 +65,10 @@ class _ManagementAnimalPageState extends State<ManagementAnimalPage> {
                       height: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(999),
-                        color: Color(0xFF4169E1),
+                        color: theme.primary,
                       ),
                       child: Center(
-                        child: Text(
-                          'Cadastrar animal',
-                          style: AppStyle.bold.copyWith(color: Colors.white),
-                        ),
+                        child: Text('Cadastrar animal', style: AppStyle.bold.copyWith(color: Colors.white)),
                       ),
                     ),
                   ),
@@ -97,66 +110,72 @@ class _ManagementAnimalPageState extends State<ManagementAnimalPage> {
                                 animal["percentual_abate"].toString(),
                               ) ??
                               0.0;
-                          // 2. Convert to a factor between 0.0 and 1.0
                           final double widthFactor = (percentage / 100).clamp(
                             0.0,
                             1.0,
                           );
 
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                border: BoxBorder.all(color: Color(0xFF00A3E0)),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AnimalDetailPage(animal: animal),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10.0,
                               ),
-                              height: 100,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      animal["nome"] ?? "Sem nome",
-                                      style: AppStyle.bold,
-                                    ),
-                                    Text(
-                                      animal["peso_kg"].toString(),
-                                      style: AppStyle.regular.copyWith(
-                                        color: Colors.black,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: BoxBorder.all(color: theme.primary),
+                                ),
+                                height: 100,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        animal["nome"] ?? "Sem nome",
+                                        style: AppStyle.bold,
                                       ),
-                                    ),
-                                    Container(
-                                      height: 16,
-                                      width: double
-                                          .infinity,
-                                      decoration: BoxDecoration(
-                                        color: Colors
-                                            .grey
-                                            .shade300,
-                                        borderRadius: BorderRadius.circular(
-                                          999,
+                                      Text(
+                                        animal["peso_kg"].toString(),
+                                        style: AppStyle.regular.copyWith(
+                                          color: Colors.black,
                                         ),
                                       ),
-                                      child: FractionallySizedBox(
-                                        alignment: Alignment.centerLeft,
-                                        widthFactor:
-                                            widthFactor,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: const Color(
-                                              0xFF4169E1,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              999,
+                                      Container(
+                                        height: 16,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade300,
+                                          borderRadius: BorderRadius.circular(
+                                            999,
+                                          ),
+                                        ),
+                                        child: FractionallySizedBox(
+                                          alignment: Alignment.centerLeft,
+                                          widthFactor: widthFactor,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: theme.primary,
+                                              borderRadius:
+                                                  BorderRadius.circular(999),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

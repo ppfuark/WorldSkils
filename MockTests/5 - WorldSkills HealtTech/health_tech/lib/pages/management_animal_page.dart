@@ -68,7 +68,10 @@ class _ManagementAnimalPageState extends State<ManagementAnimalPage> {
                         color: theme.primary,
                       ),
                       child: Center(
-                        child: Text('Cadastrar animal', style: AppStyle.bold.copyWith(color: Colors.white)),
+                        child: Text(
+                          'Cadastrar animal',
+                          style: AppStyle.bold.copyWith(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -148,10 +151,8 @@ class _ManagementAnimalPageState extends State<ManagementAnimalPage> {
                                         style: AppStyle.bold,
                                       ),
                                       Text(
-                                        animal["peso_kg"].toString(),
-                                        style: AppStyle.regular.copyWith(
-                                          color: Colors.black,
-                                        ),
+                                        "${animal["peso_kg"].toString()} Kg",
+                                        style: AppStyle.regular,
                                       ),
                                       Container(
                                         height: 16,

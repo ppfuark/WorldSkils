@@ -101,49 +101,50 @@ class _WorkoutDetailPageState extends State<WorkoutDetailPage> {
                         itemCount: exercices.length,
                         itemBuilder: (context, index) {
                           final exercise = exercices[index];
-                          return GestureDetector(
-                            onLongPress: () {},
-
-                            child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: theme.primary),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          exercise['name'] ?? "Unnamed",
-                                          style: AppStyle.regular.copyWith(
-                                            color: theme.inverseSurface,
+                          if (exercise['workout_id'] == widget.workId) {
+                            return GestureDetector(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: theme.primary),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            exercise['name'] ?? "Unnamed",
+                                            style: AppStyle.regular.copyWith(
+                                              color: theme.inverseSurface,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(width: 6),
-                                        Text(
-                                          "-",
-                                          style: AppStyle.regular.copyWith(
-                                            color: theme.inverseSurface,
+                                          SizedBox(width: 6),
+                                          Text(
+                                            "-",
+                                            style: AppStyle.regular.copyWith(
+                                              color: theme.inverseSurface,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(width: 6),
-                                        Text(
-                                          "${exercise['reps'].toString()} Reps",
-                                          style: AppStyle.regular.copyWith(
-                                            color: theme.inverseSurface,
+                                          SizedBox(width: 6),
+                                          Text(
+                                            "${exercise['reps'].toString()} Reps",
+                                            style: AppStyle.regular.copyWith(
+                                              color: theme.inverseSurface,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
+                            );
+                          }
+                          return null;
                         },
                       );
                     },

@@ -78,6 +78,31 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(
                 children: [
+                  SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () =>
+                        Navigator.pushNamed(context, '/workout_register'),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: theme.primary,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 16.0,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Create Workout",
+                            style: AppStyle.bold.copyWith(color: theme.surface),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   FutureBuilder(
                     future: futureWorkouts,
                     builder: (context, snapshot) {

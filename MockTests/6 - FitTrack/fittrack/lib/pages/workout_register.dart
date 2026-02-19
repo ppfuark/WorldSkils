@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:fittrack/app_style.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class WorkoutRegister extends StatefulWidget {
   const WorkoutRegister({super.key});
@@ -20,7 +23,7 @@ class _WorkoutRegisterState extends State<WorkoutRegister> {
   final TextEditingController startDate = TextEditingController();
   bool isPublic = true;
 
-  void createWorkout() {
+  void createWorkout() async {
     if (userId.text.isNotEmpty &&
         name.text.isNotEmpty &&
         type.text.isNotEmpty &&
@@ -29,14 +32,46 @@ class _WorkoutRegisterState extends State<WorkoutRegister> {
         calories.text.isNotEmpty &&
         progress.text.isNotEmpty &&
         startDate.text.isNotEmpty) {
-      try {} catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Error on creare workout: ${e.toString()}"),
-            backgroundColor: Colors.red,
-          ),
+      try {
+        var data = {
+          "id": DateTime.now().millisecondsSinceEpoch,
+          "user_id": userId.text,
+          "name": name.text,
+          "type": type.text,
+          "intensity": intensity,
+          "duration_minutes": durationMin.text,
+          "calories_target": calories.text,
+          "progress_percentage": progress.text,
+          "start_date": startDate.text,
+          "is_public": isPublic,
+        };
+
+        final response = await http.post(
+          Uri.parse("http://10.109.66.116:3000/workouts"),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(data),
         );
+
+        if (response.statusCode == 201 && mounted) {
+          Navigator.pushNamed(context, '/workouts');
+        }
+      } catch (e) {
+        mounted
+            ? ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Error on creare workout: ${e.toString()}", style: AppStyle.regular),
+                  backgroundColor: Colors.red,
+                ),
+              )
+            : null;
       }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Fields can not be empty", style: AppStyle.regular),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 

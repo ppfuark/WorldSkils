@@ -29,12 +29,15 @@ class _LoginPageState extends State<LoginPage> {
         for (dynamic user in users) {
           if (user['email'] == emailController.text &&
               user['password'] == passwordContoller.text) {
-            mounted ? Navigator.pushNamed(context, '/workout_register') : null;
+            mounted ? Navigator.pushNamed(context, '/workouts') : null;
           } else {
             mounted
                 ? ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("Invalid credentials"),
+                      content: Text(
+                        "Invalid credentials",
+                        style: AppStyle.regular,
+                      ),
                       backgroundColor: Colors.red,
                     ),
                   )
@@ -47,7 +50,10 @@ class _LoginPageState extends State<LoginPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Error on fecth users: ${e.toString()}"),
+              content: Text(
+                "Error on fecth users: ${e.toString()}",
+                style: AppStyle.regular,
+              ),
               backgroundColor: Colors.red,
             ),
           );

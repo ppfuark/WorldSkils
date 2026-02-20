@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:aero/app_style.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 
 class DroneAdminPage extends StatefulWidget {
@@ -21,31 +19,11 @@ class _DroneAdminPageState extends State<DroneAdminPage> {
   bool saved = false;
   String serviceTime = "";
 
-  Future<void> pickJsonFile() async {
+  Future<void> loadFromAsset() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['json'],
-        withData: true,
+      final String content = await rootBundle.loadString(
+        'asset/upload_test.json',
       );
-
-      if (result == null || result.files.isEmpty) {
-        return;
-      }
-
-      final file = result.files.first;
-
-      if (file.bytes == null && file.path == null) {
-        throw Exception("Arquivo inválido");
-      }
-
-      String content;
-
-      if (file.bytes != null) {
-        content = utf8.decode(file.bytes!);
-      } else {
-        content = await File(file.path!).readAsString();
-      }
 
       final jsonMap = jsonDecode(content) as Map<String, dynamic>;
 
@@ -58,29 +36,29 @@ class _DroneAdminPageState extends State<DroneAdminPage> {
         calculateServiceTime();
       });
 
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "JSON carregado. Clique em Salvar para confirmar.",
-            style: AppStyle.regular.copyWith(color: Colors.white),
-          ),
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-        ),
-      );
+      mounted
+          ? ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "JSON carregado do asset",
+                  style: AppStyle.regular.copyWith(color: Colors.white),
+                ),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+              ),
+            )
+          : null;
     } catch (e) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Erro ao carregar JSON",
-            style: AppStyle.regular.copyWith(color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
+      mounted
+          ? ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "Erro ao carregar JSON do asset ${e.toString()}",
+                  style: AppStyle.regular.copyWith(color: Colors.white),
+                ),
+                backgroundColor: Colors.red,
+              ),
+            )
+          : null;
     }
   }
 
@@ -250,7 +228,7 @@ class _DroneAdminPageState extends State<DroneAdminPage> {
               SizedBox(height: 20),
 
               GestureDetector(
-                onTap: pickJsonFile,
+                onTap: loadFromAsset,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -262,7 +240,7 @@ class _DroneAdminPageState extends State<DroneAdminPage> {
                   ),
                   child: Center(
                     child: Text(
-                      "Upload JSON",
+                      "Carregar JSON (Asset)",
                       style: AppStyle.bold.copyWith(color: Colors.white),
                     ),
                   ),

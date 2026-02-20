@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class DroneDetail extends StatefulWidget {
-  final int id;
+  final String id;
   const DroneDetail({super.key, required this.id});
 
   @override
@@ -20,8 +20,17 @@ class _DroneDetailState extends State<DroneDetail> {
       Uri.parse("http://10.109.66.116:3000/drones/${widget.id}"),
     );
 
-    drone = jsonDecode(response.body);
-    return drone;
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Erro ao carregar drone");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    drone = fetchDrone();
   }
 
   @override
@@ -32,7 +41,7 @@ class _DroneDetailState extends State<DroneDetail> {
       backgroundColor: theme.surface,
       appBar: AppBar(
         title: Text(
-          "Drones",
+          "Drones - ${widget.id}",
           style: AppStyle.bold.copyWith(
             color: theme.inverseSurface,
             fontSize: 24,
@@ -60,73 +69,67 @@ class _DroneDetailState extends State<DroneDetail> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(
                 children: [
-                  FutureBuilder(
+                  FutureBuilder<Map<String, dynamic>>(
                     future: drone,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-
-                      if (snapshot.data == null) {
-                        return Center(child: Text("Nenhum drone encontrado"));
+                        return const Center(child: CircularProgressIndicator());
                       }
 
                       if (snapshot.hasError) {
-                        return Center(child: Text("Erro na busca de dados"));
+                        return const Center(
+                          child: Text("Erro na busca de dados"),
+                        );
                       }
 
-                      final drones = snapshot.data!;
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: Text("Nenhum drone encontrado"),
+                        );
+                      }
 
+                      final droneData = snapshot.data!;
                       final w = MediaQuery.of(context).size.width - 120;
 
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Text(
+                            droneData['nome'] ?? "Sem nome",
+                            style: AppStyle.regular,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                drone['nome'] ?? "Sem nome",
-                                style: AppStyle.regular,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              Stack(
                                 children: [
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        width: w,
-                                        height: 25,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        width:
-                                            (w *
-                                            (drone['nivel_bateria'] / 100)),
-                                        height: 25,
-                                        decoration: BoxDecoration(
-                                          color: theme.secondary,
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  Container(
+                                    width: w,
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
                                   ),
-                                  Text(
-                                    "${drone['nivel_bateria']} %",
-                                    style: AppStyle.regular,
+                                  Container(
+                                    width:
+                                        w *
+                                        ((droneData['nivel_bateria'] ?? 0) /
+                                            100),
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                      color: theme.secondary,
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
                                   ),
                                 ],
                               ),
+                              Text(
+                                "${droneData['nivel_bateria'] ?? 0} %",
+                                style: AppStyle.regular,
+                              ),
                             ],
                           ),
-                          SizedBox(height: 20),
                         ],
                       );
                     },

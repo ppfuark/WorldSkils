@@ -42,7 +42,7 @@ class _RegisterDronesPageState extends State<RegisterDronesPage> {
         nivelBat.text.isNotEmpty &&
         horasVoo.text.isNotEmpty) {
       var data = {
-        "id": DateTime.timestamp().millisecondsSinceEpoch,
+        "id": DateTime.timestamp().millisecondsSinceEpoch.toString(),
         "nome": nome.text,
         "modelo_id": modeloId.text,
         "base_id": baseId.text,

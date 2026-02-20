@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aero/app_style.dart';
+import 'package:aero/pages/drone_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -95,10 +96,8 @@ class _DronesPageState extends State<DronesPage> {
                       return Column(
                         children: [
                           GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              '/register_drones',
-                            ),
+                            onTap: () =>
+                                Navigator.pushNamed(context, 'register_drones'),
                             child: Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 10,
@@ -127,6 +126,13 @@ class _DronesPageState extends State<DronesPage> {
                               final w = MediaQuery.of(context).size.width - 120;
 
                               return GestureDetector(
+                                onLongPress: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DroneDetail(id: drone['id']),
+                                  ),
+                                ),
                                 child: Dismissible(
                                   key: UniqueKey(),
                                   direction: DismissDirection.endToStart,

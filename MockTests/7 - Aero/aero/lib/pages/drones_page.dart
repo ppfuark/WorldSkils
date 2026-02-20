@@ -66,6 +66,13 @@ class _DronesPageState extends State<DronesPage> {
                 : Icon(Icons.dark_mode_outlined),
             color: theme.inverseSurface,
           ),
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, "/drone_admin");
+            },
+            icon: Icon(Icons.admin_panel_settings_outlined),
+            color: theme.inverseSurface,
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -96,8 +103,10 @@ class _DronesPageState extends State<DronesPage> {
                       return Column(
                         children: [
                           GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, 'register_drones'),
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              '/register_drones',
+                            ),
                             child: Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: 10,

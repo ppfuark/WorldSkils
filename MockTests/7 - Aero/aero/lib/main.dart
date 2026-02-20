@@ -1,4 +1,5 @@
 import 'package:aero/app_style.dart';
+import 'package:aero/pages/drone_admin_page.dart';
 import 'package:aero/pages/drones_page.dart';
 import 'package:aero/pages/login_page.dart';
 import 'package:aero/pages/register_drones_page.dart';
@@ -29,6 +30,7 @@ class _RoutesState extends State<Routes> {
             '/login': (context) => LoginPage(),
             '/drones': (context) => DronesPage(),
             '/register_drones': (context) => RegisterDronesPage(),
+            '/drone_admin': (context) => DroneAdminPage(),
           },
         );
       },

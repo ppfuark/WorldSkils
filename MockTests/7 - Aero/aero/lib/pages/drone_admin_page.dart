@@ -223,6 +223,11 @@ class _DroneAdminPageState extends State<DroneAdminPage> {
                       ),
                       hintStyle: AppStyle.regular,
                     ),
+                    onChanged: (_) {
+                      setState(() {
+                        calculateServiceTime();
+                      });
+                    },
                   ),
                 ],
               ),

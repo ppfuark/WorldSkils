@@ -1,6 +1,7 @@
 import 'package:aero/app_style.dart';
 import 'package:aero/pages/drones_page.dart';
 import 'package:aero/pages/login_page.dart';
+import 'package:aero/pages/register_drones_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,6 +28,7 @@ class _RoutesState extends State<Routes> {
           routes: {
             '/login': (context) => LoginPage(),
             '/drones': (context) => DronesPage(),
+            '/register_drones': (context) => RegisterDronesPage(),
           },
         );
       },

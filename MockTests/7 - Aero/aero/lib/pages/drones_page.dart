@@ -94,6 +94,31 @@ class _DronesPageState extends State<DronesPage> {
 
                       return Column(
                         children: [
+                          GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              '/register_drones',
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 20,
+                              ),
+                              decoration: BoxDecoration(
+                                color: theme.secondary,
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Criar novo Drone",
+                                  style: AppStyle.bold.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20),
                           ListView.builder(
                             shrinkWrap: true,
                             itemBuilder: (context, index) {

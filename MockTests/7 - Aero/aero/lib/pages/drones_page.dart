@@ -201,9 +201,12 @@ class _DronesPageState extends State<DronesPage> {
                                                 ),
                                                 Container(
                                                   width:
-                                                      (w *
-                                                      (drone['nivel_bateria'] /
-                                                          100)),
+                                                      drone['nivel_bateria'] !=
+                                                          null
+                                                      ? (w *
+                                                            (drone['nivel_bateria'] /
+                                                                100))
+                                                      : 0,
                                                   height: 25,
                                                   decoration: BoxDecoration(
                                                     color: theme.secondary,
